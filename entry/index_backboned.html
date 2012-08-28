@@ -1,0 +1,404 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!-- Generated from data/head-home.php, ../../smarty/{head.tpl} -->
+<head>
+<title>NVS: The Comedy of Errors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+	.title{
+	font-weight:bold;
+	}
+	.speaker{
+		font-weight:bold;
+		display:inline;
+		padding-right: 1em;
+	}
+	.inner_stage{
+	font-style: italic;
+	display: inline;
+
+	}
+	.deleted{
+	text-decoration: line-through;
+	}
+	
+	.outer_stage{
+	font-style: italic;
+	padding-bottom:1ex;
+	}
+	.p{
+	display: inline;
+	}
+	.sp{
+	font-size:12pt;
+	}
+	.playtext{
+	width: 500px;
+	padding-left:5px;
+	}
+	.TOC{
+	width: 400px;
+	padding-left:5px;
+	}
+	.head{
+	font-weight:bold;
+	padding-bottom: 1ex;
+	padding-top: 2ex;
+	}
+
+	a.ref_line{
+	background-color: #FFF;
+	float:right;  
+	
+	}
+		a.activeRow{
+	background-color: red;
+	}
+	ul{
+		list-style-type: none;
+	}
+	.print_tln{
+	float: right;
+	
+	}
+	.stage{
+	font-style: italic;
+	
+	}
+	.align-right{
+	float: right;
+	padding-right: 5ex;
+	}
+	.align-center{
+	text-align: center;
+	}
+	
+	</style>
+	<style type="text/css">
+		.textBody{
+			height: 550px;
+			width: 550px;
+			overflow: auto;
+		}
+		
+		.textNavMenu{
+		background: cyan;
+		}
+	</style>
+	<style type="text/css">
+		.textView{
+		border: 3px #666 solid;
+		height: 570px;
+			width: 570px;
+			float: left;
+		}
+		.rightCol{
+			float: left;
+			height: 570px;
+			width: 550px;
+			padding-left: 5ex;
+		}
+	
+		.viewBox{
+			margin-top:1em;
+			height: 250px;
+			width: 400px;
+			border: thin solid red;
+			overflow: auto;
+		}
+		.container{
+		height: 800px;
+		width:1400px;
+		
+		}
+		.container_body{
+		height: 600px;
+		width:1170px;
+		padding: 3px;
+		border: thick solid green;
+		}
+		.lem{
+		font-weight: bold;
+		}
+		.highlight{
+		
+		background-color: yellow;
+		}
+	</style>
+<script type="text/javascript" src="./vendor/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="./vendor/underscore-min.js"></script>
+<script type="text/javascript" src="./vendor/backbone-min.js"></script>
+
+
+
+<script type="text/javascript" src="./static/commentary.js"></script>
+<script type="text/template" id="textView-template">
+<div class="textView" id="<%= id %>">
+	<div class="textNavMenu">
+		<span class="textTitle"><%= Title %></span>
+		<span class="navBar"><% print("NAV BAR WORK"); %></span>
+	</div>
+	<div class="textBody">
+	TEXT BODY: 	<% 	 
+
+txtFile = textBody;
+$.ajax({
+  url:txtFile}).done(function(playText) {
+    dest= id;
+	$("#"+dest+">div.textBody").html(playText);
+	registerLines();
+	return;
+  });
+ %>
+	</div>
+</div>
+
+</script>
+<script type="text/template" id="NoteView-template">
+<div class="footnote" id="<%= id %>">
+<span class="refLine"><% refLine %></span>
+<span class="lemma"><%= lemma %></span>
+<span class="noteText"><%= noteText %></span>
+</div>
+</script>
+<script type="text/javascript">
+
+/*
+var noteCollection = Backbone.Collection.extend({
+	   defaults: function() {
+	      return {
+	        type: "text",
+	        line: 0,
+	      	value: ""
+	        order: Todos.nextOrder(),
+	      };
+	    },
+		initialize: function(){
+			
+		},
+	    // Reference to this collection's model.
+	    model: note,
+
+	    // We keep the Todos in sequential order, despite being saved by unordered
+	    // GUID in the database. This generates the next order number for new items.
+	    nextOrder: function() {
+	      if (!this.length) return 1;
+	      return this.last().get('order') + 1;
+	    },
+
+	    // Todos are sorted by their original insertion order.
+	    comparator: function(todo) {
+	      return todo.get('order');
+	    }
+ });
+
+var note = Backbone.Model.extend({
+	// Default attributes for the todo item.
+    defaults: function() {
+      return {
+        type: "text",
+        line: 0,
+      	value: ""
+        order: Todos.nextOrder(),
+      };
+    },
+
+    // Ensure that each todo created has `title`.
+    initialize: function() {
+      if (!this.get("title")) {
+        this.set({"title": this.defaults.title});
+      }
+    },
+    // Remove this Todo from *localStorage* and delete its view.
+    clear: function() {
+      this.destroy();
+    }
+})
+
+*/
+var lineIndex=new Object;
+
+$(document).ready(function(){
+	
+	var compiled = _.template($("#textView-template").html());
+	$("#textView").html(compiled({"id":"txt123","Title": "A Comedy of Errors", "textBody":"./views/ComedyOfErrors.html"}));
+	
+	$(".textBody").scroll(handleScroll);
+});
+function registerLines()
+{
+	var currentPosition = $(".textBody").scrollTop();
+
+	$.each($("a.ref_line"),function(key,value){
+
+		elpos =$(value).offset().top;
+		setPos = parseInt(elpos+currentPosition);
+
+		lineIndex[""+setPos]=$(value).attr("id");
+		$(value).mouseover(function(obj){
+			
+		
+			pingLine($(this).attr("id"));
+		
+		});
+	});
+	
+	
+	
+	listNotes(commentaryNotes);
+	return;
+	
+}
+
+function showNote(notes,id){
+	
+	thisnote = _.find(notes,function(note){
+		return note.line == id.substring("fn_".length);
+	});
+	scrollText(thisnote.line);
+	highlightLine(thisnote.line);
+	
+	$("#annoView").html("<div class='noteViewNav'>Back</div><div class='noteViewBody'>"+thisnote.value+"</div>");
+	$("#annoView").scrollTop(0);
+	$(".noteViewNav").click(function(){
+		listNotes(notes,id);
+		
+	});
+}
+function listNotes(notes,topNote){
+	$("#annoView").html("");
+	_.each(notes,function(value,key){
+		var txtNote= value.value.replace(/\<[^\>]*\>/g,"");
+		txtNote = txtNote.substring(0,txtNote.indexOf("]")+1);
+		$("#annoView").append("<div id='fn_"+value.line+"' class='footnote'>"+txtNote+"</div>");
+		
+	});
+	$(".footnote").click(function(){
+		showNote(notes,$(this).attr("id").substring("fn_"+length));
+		
+	});	
+	$(".footnote").mouseover(function(){
+		$(".selectedLine").removeClass("selectedLine");
+		$(this).addClass("selectedLine");	
+	});
+	
+	var loff = $("#"+topNote).offset();
+	
+	if (loff!=null){
+		
+		$("#annoView").scrollTop((parseFloat(loff.top+$("#annoView").scrollTop())-$("#annoView").offset().top));
+	}
+	unhighlight();
+	return;
+}
+function scrollText(line){
+	if (line){
+		
+		loff= $("#"+line).offset();
+		if (loff!=null){
+			$(".textBody").scrollTop((parseFloat(loff.top+$(".textBody").scrollTop())-$(".textBody").offset().top));
+		}
+
+	}
+	return;
+	
+}
+function pingLine(line){
+	if (line){
+		
+		loff= $("#fn_"+line).offset();
+		if (loff!=null){
+			$("#annoView").scrollTop((parseFloat(loff.top+$("#annoView").scrollTop())-$("#annoView").offset().top));
+		}
+
+	}
+	return;
+}
+
+function handleScroll(){
+	
+	var scrollPos = parseInt($(".textBody").scrollTop())+$(".textBody").css("lineheight");
+	while ((_.isUndefined(lineIndex[""+scrollPos]))&&(scrollPos<$(".textBody").height)){
+		scrollPos++;
+	}
+	sel=lineIndex[""+scrollPos];
+	pingLine(sel);	
+}
+
+function getTextNodesIn(node, includeWhitespaceNodes) {
+// http://stackoverflow.com/questions/298750/how-do-i-select-text-nodes-with-jquery
+	var textNodes = [], whitespace = /^\s*$/;
+
+    function getTextNodes(node) {
+        if (node.nodeType == 3) {
+            if (includeWhitespaceNodes || !whitespace.test(node.nodeValue)) {
+                textNodes.push(node);
+            }
+        } else {
+            for (var i = 0, len = node.childNodes.length; i < len; ++i) {
+            	 if (node.childNodes[i].nodeName.toLowerCase()=="a"){
+                	break;
+                }
+            	getTextNodes(node.childNodes[i]);
+            }
+        }
+    }
+
+    getTextNodes(node);
+    return textNodes;
+}
+
+function highlightLine(line){
+	
+	next = $("#"+line)[0].nextSibling;
+
+	while ((next!=null)&&(next.nodeName.toLowerCase()!="a")){
+		
+		if (next.nodeType==3){
+	
+			$(next).wrap("<span class='highlight'/>");
+			next = $(next).parent();
+		}
+		else{
+			tns = getTextNodesIn(next);
+			for (var i=0;i<tns.length;i++){
+				$(tns[i]).wrap("<span class='highlight'/>");
+			}
+		}
+
+		next = $(next)[0].nextSibling;
+		
+	}
+
+}
+function unhighlight(){
+	
+	$(".highlight").each(function(key,value){
+
+		$(value).contents().unwrap();
+	});
+	
+}
+</script>
+</head>
+<body>
+<div class="container">
+<div class="topMenu">
+TOP MENU VIEW
+</div>
+<div class="container_body">
+
+<div id="textView" class="textView">
+</div>
+<div class="rightCol">
+<div class="viewBox" id="mediaView">media view
+</div>
+
+<div class="viewBox" id="annoView">annoview
+</div>
+</div>
+
+</div>
+</div>
+</body>
+</html>

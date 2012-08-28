@@ -1,0 +1,637 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!-- Generated from data/head-home.php, ../../smarty/{head.tpl} -->
+<head>
+<title>NVS: The Comedy of Errors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+	.title{
+	font-weight:bold;
+	}
+	.speaker{
+		font-weight:bold;
+		display:inline;
+		padding-right: 1em;
+	}
+	.inner_stage{
+	font-style: italic;
+	display: inline;
+
+	}
+	.deleted{
+	text-decoration: line-through;
+	}
+	
+	.outer_stage{
+	font-style: italic;
+	padding-bottom:1ex;
+	}
+	.p{
+	display: inline;
+	}
+	.sp{
+	font-size:12pt;
+	}
+	.playtext{
+	width: 500px;
+	padding-left:5px;
+	}
+	.TOC{
+	width: 400px;
+	padding-left:5px;
+	}
+	.head{
+	font-weight:bold;
+	padding-bottom: 1ex;
+	padding-top: 2ex;
+	}
+
+	a.ref_line{
+	background-color: #FFF;
+	float:right;  
+	
+	}
+		a.activeRow{
+	background-color: red;
+	}
+	ul{
+		list-style-type: none;
+	}
+	.print_tln{
+	float: right;
+	
+	}
+	.stage{
+	font-style: italic;
+	
+	}
+	.align-right{
+	float: right;
+	padding-right: 5ex;
+	}
+	.align-center{
+	text-align: center;
+	}
+	
+	</style>
+	<style type="text/css">
+		.textBody{
+			height: 550px;
+			width: 550px;
+			overflow: auto;
+		}
+		
+		.textNavMenu{
+		background: cyan;
+		}
+	</style>
+	<style type="text/css">
+		.textView{
+		border: 3px #666 solid;
+		height: 570px;
+			width: 570px;
+			float: left;
+		}
+		.rightCol{
+			float: left;
+			height: 570px;
+			width: 550px;
+			padding-left: 5ex;
+		}
+	
+		.viewBox{
+			margin-top:1em;
+			height: 250px;
+			width: 250px;
+			border: thin solid red;
+			overflow: auto;
+			float: left;
+		}
+		#mediaView{
+		height:400px;
+		width:550px;
+		}
+		#mycarousel{
+		height: 300px;
+		width: 500px;
+		}
+		.container{
+		height: 800px;
+		width:1400px;
+		
+		}
+		.container_body{
+		height: 700px;
+		width:1170px;
+		padding: 3px;
+		border: thick solid green;
+		}
+		.lemma{
+		font-weight: bold;
+		}
+		.highlight{
+		
+		background-color: yellow;
+		}
+		.editBox{
+			margin: 1em;
+			height: 250px;
+			width: 260px;
+			border: thin solid red;
+			overflow: auto;
+			float: left;
+		
+		}
+		#UserNoteBox{
+			width: 225px;
+			height: 100px;
+			display: block;
+		}
+		.noteBoxes{
+		`  width: 450px;
+			margin-top:1em;
+		}
+		
+
+	</style>
+<link type="text/css" rel="stylesheet" href="./vendor/jquery.fancybox-1.3.4.css"></link>
+
+<link type="text/css" rel="stylesheet" href="./vendor/jcarousel/skins/ie7/skin.css"></link>
+<script type="text/javascript" src="./vendor/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="./vendor/underscore-min.js"></script>
+<script type="text/javascript" src="./vendor/backbone-min.js"></script>
+<script type="text/javascript" src="./vendor/rangy-1.2.3/rangy-core.js"></script>
+<script type="text/javascript" src="./vendor/jcarousel/lib/jquery.jcarousel.min.js"></script>
+<script type="text/javascript" src="./vendor/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript" src="./vendor/client.js"></script>
+<script type="text/javascript" src="./static/FolioImages.js"></script>
+<script type="text/javascript" src="./static/commentary.js"></script>
+<script type="text/template" id="textView-template">
+<div class="textView" id="<%= id %>">
+	<div class="textNavMenu">
+		<span class="textTitle"><%= Title %></span>
+		<span class="navBar"><% print("NAV BAR WORK"); %></span>
+	</div>
+	<div class="textBody">
+	TEXT BODY: 	<% 	 
+lineIndex=new Object;
+txtFile = textBody;
+$.ajax({
+  url:txtFile}).done(function(playText) {
+    dest= id;
+	$("#"+dest+">div.textBody").html(playText);
+	registerLines("a.ref_line",lineIndex,"comNote");
+	registerLines("a.sig_F",lineIndex,"mediaEle");
+	
+	return;
+  });
+	
+ %>
+	</div>
+</div>
+
+</script>
+
+<script type="text/javascript">
+var CarouselState = null;
+function mycarousel_itemLoadCallback(carousel, state)
+{
+	
+    for (var i = carousel.first; i <= carousel.last; i++) {
+        if (carousel.has(i)) {
+            continue;
+        }
+
+        if (i > imageList.length) {
+            break;
+        }
+		console.log("ADD "+i);
+        carousel.add(i, mycarousel_getItemHTML(imageList[i-1]));
+    }
+	$(".pageImage").fancybox({
+		'transitionIn'		: 'none',
+		'transitionOut'		: 'none'
+	});
+	$(".textBody").trigger({"type":"imgChanged","id":carousel.first});
+	
+    
+};
+function mycarousel_getItemHTML(item)
+{
+
+	   return "<a rel='pageImage' class='pageImage' href='"+item.url+"'><img width=375 src='"+item.url+"'/></a>";
+
+};
+
+var token = "";
+$(document).ready(function(){
+
+	var compiled = _.template($("#textView-template").html());
+	$("#textView").html(compiled({"id":"txt123","Title": "A Comedy of Errors", "textBody":"./views/ComedyOfErrors.html"}));
+	locstr = (window.location)+"";
+
+	locstr = locstr.substring(locstr.indexOf("&access_token=")+"&access_token=".length);
+	token = locstr.substring(0,locstr.indexOf("&token"));
+	//code = locstr.substring(locstr.indexOf("code=")+5);
+	
+/*	if (token.length>0){
+	
+	
+	$.ajax({
+	 url: "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token="+token,
+	  dataType: 'jsonP',
+	  jsonpCallback: "jsonReturned",
+	  success: function(data){
+		JSONreturned(data);
+	  }
+	});
+	
+	
+	}*/
+	
+	$(".textBody").scroll(handleScroll);
+	$(".textBody").mouseup(function(){
+		sel = rangy.getSelection();
+		selPrev = sel.toString();
+		anchor = getLineAnchor(sel.focusNode);
+		
+		if (selPrev.length>15){
+			selPrev = selPrev.substring(0,selPrev.indexOf(" "))+"..."+selPrev.substring(selPrev.lastIndexOf(" "));
+		}
+		$("#textSelectionPrev").html("<strong>"+selPrev+"</strong> ] ");
+	});
+	$("#GoogleLogIn").click(function(){
+		  var config = {
+			      'client_id': '591726924587.apps.googleusercontent.com',
+			      'scope': ['https://www.googleapis.com/auth/drive']
+			    };
+			    gapi.auth.authorize(config, function() {
+			      console.log('login complete');
+			      console.log(gapi.auth.getToken());
+			      token = gapi.auth.getToken();
+			      console.log("TOKEN "+token);
+				  callDocApi();	
+			    });
+/*		window.open("https://accounts.google.com/o/oauth2/auth?state"+
+	"=%2Fprofile&redirect_uri=http%3A%2F%2Flocalhost:8888%2Fnvs-challenge%2Fentry%2Findex.html"+
+	"&response_type=token&client_id=591726924587.apps.googleusercontent.com"+
+	"&approval_prompt=force&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email"+
+	"+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile"+
+	"+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive","GoogleLogIn");*/
+	
+	});
+	$(".textBody").bind("comNote",function(e,id){pingLine(e.id)});
+	$(".textBody").bind("mediaEle",function(e,id){showImage(e.id)});
+	imgCarousel = $('#mycarousel').jcarousel({
+        size: imageList.length,
+        scroll: 1,
+        visible: 1,
+        itemLoadCallback: {onBeforeAnimation: mycarousel_itemLoadCallback},
+        wrap: 'circular'
+    });
+	$(".pageLink").click(function(){
+		scrollToLink();
+	});
+	/*$(".textBody").bind("imgChanged",function(e,id){console.log(e);console.log(e.id);
+	img = imageList[(parseInt(e.id)-1)]["n"];
+	line = _.find(folioImages,function(value,key){
+		return value.image==img;
+	})
+	
+	scrollText(line.id)});*/
+});
+function db(){
+	console.log("DUBBB");
+}
+function scrollToLink(){
+	carousel = $('#mycarousel').data('jcarousel');
+	num = carousel.first;
+	console.log(num);
+	img = imageList[(parseInt(num)-1)]["n"];
+	line = _.find(folioImages,function(value,key){
+		return value.image==img;
+	});
+	scrollText(line.id);
+}
+function showImage(id){
+	n = _.find(folioImages,function(value,key){
+		return value.id==id;
+	})
+	n = n.image;
+	
+/*	console.log(n);
+	url = _.find(imageList,function(value,key){
+		return value.n==n.image;
+	});*/
+	/*console.log(url.url);
+	$("#mediaView").html("<a rel='pageImage' class='pageImage' href='"+url.url+"'><img width=375 src='"+url.url+"'/></a>");
+	*/
+	
+	console.log("TRY SCROLL "+n);
+	
+	  $('#mycarousel').jcarousel('scroll', parseInt(n),false);
+	
+	console.log("Done");
+	
+
+}
+function callDocApi(){
+
+    gapi.client.load('drive', 'v2', function() {
+        var request = gapi.client.drive.files.list({
+          'q': "mimeType = 'application/vnd.google-apps.folder' and title='nvs_notes_folder'"
+        });
+        request.execute(function(resp) {
+ 	     console.log(JSON.stringify(resp));
+         if (resp.items==null){
+        	 console.log("no items");
+        	 finalreq = gapi.client.request({
+        	        'path': '/drive/v2/files',
+        	        'method': 'POST',
+        	        'body':{
+        	            "title" : "nvs_notes_folder",
+        	            "mimeType": "application/vnd.google-apps.folder",
+        	            "description" : "Shakespeare notes folder"
+        	         }});
+
+     		 
+     		 finalreq.execute(function(json){
+     			console.log(JSON.stringify(json));
+     		
+     		 });
+     		
+     		
+     		
+     	}
+         else{
+        	 console.log("exists");
+         }
+
+       
+        });
+      });
+	
+	/*
+	$.ajax({
+		"url": "https://www.googleapis.com/drive/v2/"+para+"/?oauth_token="+token+"&callback="+cb+"&q="+query,
+	
+		"dataType": "jsonP",
+		 "jsonpCallback": cb,
+		 "success": function(data){
+			console.log("SUCCESS: "+data);
+		  }
+		
+	});	
+*/
+}
+function postDocApi(para,cb,data){
+	/*$.post({
+		"url": "https://www.googleapis.com/drive/v2/"+para,
+		"method": "POST",	
+		"data": data,
+		"beforeSend":setHeader, 
+		"dataType": "json",
+		 "jsonpCallback": cb,
+		 "success": function(data){
+			console.log("SUCCESS: "+JSON.stringify(data));
+		  }
+		
+	});	*/
+}
+function JSONreturned(data){
+	
+	callDocApi("files","checkDocList",encodeURIComponent("mimeType = 'application/vnd.google-apps.folder' and title='nvs_notes_folder'"));
+}
+function setHeader(xhr) {
+	alert(token);
+	 xhr.setRequestHeader('Authorization', token);
+}
+function checkDocList(json){
+	console.log(json);
+	if (json.items.length<1){
+		data = {
+			  "title": "nvs_notes_folder",
+			  "mimeType": "application/vnd.google-apps.folder"
+			};
+		postDocApi("files","listFiles",data);
+		
+		
+	}
+	else{
+		
+	}
+	
+}
+function listFiles(){
+	alert("Done");
+}
+function JSONloaded(){
+	
+}
+function getLineAnchor(node){
+		while ((node!=null)&&(node.nodeName.toLowerCase()!="a")){
+		if (node.previousSibling==null){
+		
+			node=$(node).parent()[0];
+		}
+		else{
+		node = node.previousSibling;
+		}
+	}
+	return node;
+		
+}
+function registerLines(aselector,aindex,eName)
+{
+	var currentPosition = $(".textBody").scrollTop();
+	var tbh = parseInt(parseInt($(".textBody").height())/2);
+	var resolution = 20; // Distance between scroll points 
+	$.each($(aselector),function(key,value){
+		
+		elpos =$(value).offset().top;
+		mainPos = parseInt(elpos+currentPosition);
+		for (setPos=mainPos-tbh;setPos<mainPos+tbh;setPos=setPos+resolution){
+		if (_.isUndefined(aindex[""+setPos])){
+			aindex[""+setPos] = [];
+		}
+		aindex[""+setPos].push({"type":eName,"id":$(value).attr("id")});
+		}
+		$(value).mouseover(function(obj){
+			
+		
+			$(".textBody").trigger({"type":eName,"id":$(value).attr("id")});
+		
+		});
+	
+	});
+	
+	
+	
+	listNotes(commentaryNotes);
+	return;
+	
+}
+
+function showNote(notes,id){
+	
+	thisnote = _.find(notes,function(note){
+		return note.line == id.substring("fn_".length);
+	});
+	scrollText(thisnote.line);
+	highlightLine(thisnote.line);
+	
+	$("#annoView").html("<div class='noteViewNav'>Back</div><div class='noteViewBody'>"+thisnote.label+" "+thisnote.lemma+" ] "+thisnote.value+"</div>");
+	$("#annoView").scrollTop(0);
+	$(".noteViewNav").click(function(){
+		listNotes(notes,id);
+		
+	});
+}
+function listNotes(notes,topNote){
+	$("#annoView").html("");
+	_.each(notes,function(value,key){
+		var txtNote= value.value.replace(/\<[^\>]*\>/g,"");
+		//txtNote = txtNote.substring(0,txtNote.indexOf("]")+1);
+		$("#annoView").append("<div id='fn_"+value.line+"' class='footnote'>"+value.label+" "+value.lemma+" ] </div>");
+		
+	});
+	$(".footnote").click(function(){
+		showNote(notes,$(this).attr("id").substring("fn_"+length));
+		
+	});	
+	$(".footnote").mouseover(function(){
+		$(".selectedLine").removeClass("selectedLine");
+		$(this).addClass("selectedLine");	
+	});
+	
+	var loff = $("#"+topNote).offset();
+	
+	if (loff!=null){
+		
+		$("#annoView").scrollTop((parseFloat(loff.top+$("#annoView").scrollTop())-$("#annoView").offset().top));
+	}
+	unhighlight();
+	return;
+}
+function scrollText(line){
+	if (line){
+		
+		loff= $("#"+line).offset();
+		if (loff!=null){
+			$(".textBody").scrollTop((parseFloat(loff.top+$(".textBody").scrollTop())-$(".textBody").offset().top));
+		}
+
+	}
+	return;
+	
+}
+function pingLine(line){
+	
+	if (line){
+		
+		loff= $("#fn_"+line).offset();
+		if (loff!=null){
+			$("#annoView").scrollTop((parseFloat(loff.top+$("#annoView").scrollTop())-$("#annoView").offset().top));
+		}
+
+	}
+	return;
+}
+
+function handleScroll(){
+	
+	var scrollPos = parseInt($(".textBody").scrollTop())+$(".textBody").css("lineheight");
+	while ((_.isUndefined(lineIndex[""+scrollPos]))&&(scrollPos<$(".textBody").height)){
+		scrollPos++;
+	}
+	sel=lineIndex[""+scrollPos];
+	if (!(_.isUndefined(sel))){
+	$.each(sel,function(key,value){
+		
+		$(".textBody").trigger({"type":value.type,"id":value.id});
+	});
+	}
+
+}
+
+function getTextNodesIn(node, includeWhitespaceNodes) {
+// http://stackoverflow.com/questions/298750/how-do-i-select-text-nodes-with-jquery
+	var textNodes = [], whitespace = /^\s*$/;
+
+    function getTextNodes(node) {
+        if (node.nodeType == 3) {
+            if (includeWhitespaceNodes || !whitespace.test(node.nodeValue)) {
+                textNodes.push(node);
+            }
+        } else {
+            for (var i = 0, len = node.childNodes.length; i < len; ++i) {
+            	 if (node.childNodes[i].nodeName.toLowerCase()=="a"){
+                	break;
+                }
+            	getTextNodes(node.childNodes[i]);
+            }
+        }
+    }
+
+    getTextNodes(node);
+    return textNodes;
+}
+
+function highlightLine(line){
+	
+	next = $("#"+line)[0].nextSibling;
+
+	while ((next!=null)&&(next.nodeName.toLowerCase()!="a")){
+		
+		if (next.nodeType==3){
+	
+			$(next).wrap("<span class='highlight'/>");
+			next = $(next).parent();
+		}
+		else{
+			tns = getTextNodesIn(next);
+			for (var i=0;i<tns.length;i++){
+				$(tns[i]).wrap("<span class='highlight'/>");
+			}
+		}
+
+		next = $(next)[0].nextSibling;
+		
+	}
+
+}
+function unhighlight(){
+	
+	$(".highlight").each(function(key,value){
+
+		$(value).contents().unwrap();
+	});
+	
+}
+//a note: <span id="textSelectionPrev"></span></span><textarea id="UserNoteBox"></textarea><span class="addNote">Add</span>
+</script>
+</head>
+<body>
+<div class="container">
+<div class="topMenu">
+Menu <span class="login"><a href="#">Login</a></span>
+</div>
+<div class="container_body">
+
+<div id="textView" class="textView">
+</div>
+<div class="rightCol">
+<div class="viewBox" id="mediaView"><ul class="jcarousel-skin-ie7" id="mycarousel"></ul>
+<div class='pageLink'>Scroll text to this location</div>
+</div>
+<div class="noteBoxes">
+<div class="viewBox" id="annoView">annoview
+</div>
+<div class="editBox" id="editView"><span class="Login"><a href="#">Login to Google Account</span></a>  </div>
+</div>
+</div>
+
+</div>
+</div>
+</body>
+</html>

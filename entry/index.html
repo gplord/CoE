@@ -1,0 +1,846 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!-- Generated from data/head-home.php, ../../smarty/{head.tpl} -->
+<head>
+<title>NVS: The Comedy of Errors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+.title {
+	font-weight: bold;
+}
+
+.speaker {
+	font-weight: bold;
+	display: inline;
+	padding-right: 1em;
+}
+
+.inner_stage {
+	font-style: italic;
+	display: inline;
+}
+
+.deleted {
+	text-decoration: line-through;
+}
+
+.outer_stage {
+	font-style: italic;
+	padding-bottom: 1ex;
+}
+
+.p {
+	display: inline;
+}
+
+
+
+.playtext {
+	width: 500px;
+	padding-left: 5px;
+}
+.userNote{
+background-color: cyan;
+}
+.TOC {
+	width: 400px;
+	padding-left: 5px;
+}
+
+.head {
+	font-weight: bold;
+	padding-bottom: 1ex;
+	padding-top: 2ex;
+}
+
+a.ref_line {
+	background-color: #FFF;
+	float: right;
+}
+
+a.activeRow {
+	background-color: red;
+}
+
+ul {
+	list-style-type: none;
+}
+
+.print_tln {
+	float: right;
+}
+
+.stage {
+	font-style: italic;
+}
+
+.align-right {
+	float: right;
+	padding-right: 5ex;
+}
+
+.align-center {
+	text-align: center;
+}
+</style>
+<style type="text/css">
+.textBody {
+	height: 500px;
+	width: 520px;
+	font-size:14pt;
+	overflow: auto;
+	font-family: 'EB Garamond', serif;
+}
+
+.textNavMenu {
+	background: cyan;
+}
+</style>
+<style type="text/css">
+.textView {
+	border: 3px #666 solid;
+	height: 570px;
+	width: 570px;
+	float: left;
+}
+
+.rightCol {
+	float: left;
+	height: 570px;
+	width: 550px;
+	padding-left: 5ex;
+}
+
+.viewBox {
+	margin-top: 1em;
+	height: 250px;
+	width: 250px;
+	border: thin solid red;
+	overflow: auto;
+	float: left;
+}
+
+#mediaView {
+	height: 400px;
+	width: 550px;
+}
+
+#mycarousel {
+	height: 300px;
+	width: 500px;
+}
+
+.container {
+	height: 800px;
+	width: 1400px;
+}
+
+.container_body {
+	height: 700px;
+	width: 1170px;
+	padding: 3px;
+	border: thick solid green;
+}
+
+.lemma {
+	font-weight: bold;
+}
+
+.highlight {
+	background-color: yellow;
+}
+
+.editBox {
+	margin: 1em;
+	height: 250px;
+	width: 260px;
+	border: thin solid red;
+	overflow: auto;
+	float: left;
+}
+
+#UserNoteBox {
+	width: 225px;
+	height: 100px;
+	display: block;
+}
+
+.noteBoxes { `
+	width: 450px;
+	margin-top: 1em;
+}
+</style>
+<link type="text/css" rel="stylesheet"
+	href="./vendor/jquery.fancybox-1.3.4.css"></link>
+
+<link type="text/css" rel="stylesheet"
+	href="./vendor/jcarousel/skins/ie7/skin.css"></link>
+<script type="text/javascript" src="./vendor/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="./vendor/underscore-min.js"></script>
+<script type="text/javascript" src="./vendor/backbone-min.js"></script>
+<script type="text/javascript" src="./vendor/rangy-1.2.3/rangy-core.js"></script>
+<script type="text/javascript"
+	src="./vendor/jcarousel/lib/jquery.jcarousel.min.js"></script>
+<script type="text/javascript" src="./vendor/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript" src="./vendor/client.js"></script>
+<script type="text/javascript" src="./static/FolioImages.js"></script>
+<script type="text/javascript" src="./static/commentary.js"></script>
+
+
+<script type="text/javascript">
+var CarouselState = null;
+var currentDoc = null;
+var cid = 0;
+var selAnchor = null;
+var notesSchema = [{"kind":"fusiontables#column","columnId":0,"name":"timestamp","type":"DATETIME"},{"kind":"fusiontables#column","columnId":1,"name":"line","type":"STRING"},{"kind":"fusiontables#column","columnId":2,"name":"label","type":"STRING"},{"kind":"fusiontables#column","columnId":3,"name":"lemma","type":"STRING"},{"kind":"fusiontables#column","columnId":4,"name":"value","type":"STRING"}];
+function mycarousel_itemLoadCallback(carousel, state)
+{
+	
+    for (var i = carousel.first; i <= carousel.last; i++) {
+        if (carousel.has(i)) {
+            continue;
+        }
+
+        if (i > imageList.length) {
+            break;
+        }
+		
+        carousel.add(i, mycarousel_getItemHTML(imageList[i-1]));
+    }
+	$(".pageImage").fancybox({
+		'transitionIn'		: 'none',
+		'transitionOut'		: 'none'
+	});
+	$(".textBody").trigger({"type":"imgChanged","id":carousel.first});
+	
+    
+};
+function mycarousel_getItemHTML(item)
+{
+
+	   return "<a rel='pageImage' class='pageImage' href='"+item.url+"'><img width=375 src='"+item.url+"'/></a>";
+
+};
+
+var token = "";
+$(document).ready(function(){
+	// folimage = "none";
+	/* fpj = [];
+	 
+	_.each(pages,function(value, key){
+		
+			if (value.html.indexOf("sig_F")>0){
+				sin = value.html.indexOf("sig_F");
+				folin = value.html.lastIndexOf("id=",sin)+4;
+				folend = value.html.indexOf("\"",folin);
+				fol = value.html.substring(folin,folend)
+			}
+			fpj.push({"page":value.num,"folimage":fol})
+	 });
+	 console.log(JSON.stringify(fpj));*/
+	lineIndex=new Object;
+	
+	//$(".textBody").html(pages[0].html);
+	
+	listNotes(commentaryNotes);
+	locstr = (window.location)+"";
+
+	locstr = locstr.substring(locstr.indexOf("&access_token=")+"&access_token=".length);
+	token = locstr.substring(0,locstr.indexOf("&token"));
+
+	$(".textBody").mouseup(function(){
+		if ($('.editNoteOpts').size()>0){
+		$(".editNoteOpts").replaceWith("<span id='addNote'>Add</span>");
+		$("#addNote").unbind();
+		
+		$("#addNote").click(function(){
+    		addNote();
+    	  
+    	});
+		}
+		sel = rangy.getSelection();
+		selPrev = sel.toString();
+		selAnchor = getLineAnchor(sel.focusNode);
+		
+		if (selPrev.length>15){
+			selPrev = selPrev.substring(0,selPrev.indexOf(" "))+"..."+selPrev.substring(selPrev.lastIndexOf(" "));
+		}
+		$("#textSelectionPrev").html("<strong>"+selPrev+"</strong> ] ");
+	});
+	$(".login").click(function(){
+		  var config = {
+			      'client_id': '591726924587.apps.googleusercontent.com',
+			      'scope': ['https://www.googleapis.com/auth/drive',"https://www.googleapis.com/auth/fusiontables"]
+			    };
+			    gapi.auth.authorize(config, function() {
+			     $(".login").html("Logout");	
+			      //token = gapi.auth.getToken();
+				  login();	
+			    });
+
+	
+	});
+	$(".textBody").bind("comNote",function(e,id){pingLine(e.id)});
+	$(".textBody").bind("mediaEle",function(e,id){showImage(e.id)});
+	imgCarousel = $('#mycarousel').jcarousel({
+        size: imageList.length,
+        scroll: 1,
+        visible: 1,
+        itemLoadCallback: {onBeforeAnimation: mycarousel_itemLoadCallback},
+        wrap: 'circular'
+    });
+	goToPage(1);
+	$(".pageLink").click(function(){
+		scrollToLink();
+	});
+	$(".nextPage").click(function(){
+		nextPage();
+	})
+		$(".prevPage").click(function(){
+		prevPage();
+	})
+});
+
+function scrollToLink(){
+	carousel = $('#mycarousel').data('jcarousel');
+	num = carousel.first;
+	
+	img = imageList[(parseInt(num)-1)]["n"];
+	line = _.find(folioImages,function(value,key){
+		return value.image==img;
+	});
+	scrollText(line.id);
+}
+function showImage(id){
+	n = _.find(folioImages,function(value,key){
+		return value.id==id;
+	})
+	n = n.image;
+
+	$('#mycarousel').jcarousel('scroll', parseInt(n),false);
+	
+}
+function login(){
+
+    gapi.client.load('drive', 'v2', function() {
+        var request = gapi.client.drive.files.list({
+          'q': "mimeType = 'application/vnd.google-apps.folder' and title='nvs_notes_folder'"
+        });
+        request.execute(function(resp) {
+ 	     console.log(JSON.stringify(resp));
+         if (resp.items==null){
+
+        	 finalreq = gapi.client.request({
+        	        'path': '/drive/v2/files',
+        	        'method': 'POST',
+        	        'body':{
+        	            "title" : "nvs_notes_folder",
+        	            "mimeType": "application/vnd.google-apps.folder",
+        	            "description" : "Shakespeare notes folder"
+        	         }});
+
+     		 
+     		 finalreq.execute(function(json){
+     			 console.log(json);
+     			 console.log(json.items[0].id);
+     			selectDefaultNotes(json)
+     		
+     		 });
+     		
+     		
+     		
+     	}
+         else{
+        	 selectDefaultNotes(resp);
+         }
+
+       
+        });
+      });
+	
+
+}
+function selectDefaultNotes(container){
+	gapi.client.load('drive', 'v2', function() {
+	console.log(container.items[0].id);
+	parentId = container.items[0].id;
+	$(".annoContent")
+	var request = gapi.client.drive.files.list({
+        'q': "'"+container.items[0].id+"' in parents and trashed=false"
+      });
+	 
+      request.execute(function(resp) {
+    	  
+    	  if ((resp.items!=null)){
+    		  
+    		  currentDoc = resp.items[0];
+    		  cid = currentDoc.id;
+    		  sql="SELECT ROWID, 'line', 'label', 'lemma', 'value' FROM "+cid
+    		  insertsql = gapi.client.request({
+    				
+    		       'path': '/fusiontables/v1/query?sql='+encodeURIComponent(sql),
+    		    		   
+    		        'method': 'POST'});
+    		insertsql.execute(function(resp){
+    			
+    			 console.log(JSON.stringify(resp));
+    			 rows = resp.rows;
+    			 console.log(rows.length);
+    			 for (i=0;i<rows.length;i++){
+    				
+    				noteObj = {"id":"un_"+rows[i][0],"line":rows[i][1],"label":rows[i][2],"lemma":rows[i][3],"value":rows[i][4],"type":"userNote"};
+    				console.log("NOTEOBJ: "+JSON.stringify(noteObj))
+    				newpos = _.sortedIndex(commentaryNotes,noteObj,function(val){
+    					return val.line
+    				});
+    				commentaryNotes.splice(newpos,0,noteObj);
+    				
+    			 }
+    			 listNotes(commentaryNotes);
+    			 
+    	  });
+    		}
+    	  else{
+    		  gapi.client.load('fusiontables', 'v1', function() {
+    
+    	    		 var filereq = gapi.client.request({
+    	      	        'path': '/fusiontables/v1/tables',
+    	      	        'method': 'POST',
+    	      	        'body':
+    	      	        	{
+    	      		          'columns': notesSchema, 
+    	      		        /*	  
+    	      		        	  [{"kind":"fusiontables#column","columnId":1,"name":"timestamp",
+    	      		        	  			"type":"DATETIME"},
+    	      		        	  			{"kind":"fusiontables#column","columnId":2,"name":"anchorId",
+    	      		        	  				"type":"STRING"},
+    	      		        	  				{"kind":"fusiontables#column","columnId":3,"name":"noteText",
+    	      		        	  				 "type":"STRING"}
+    	      		        	  			
+    	      		        	  			],*/
+    	      		        	'name': "Default notes",
+    	      		        	'isExportable':true,
+    	      		        	'parents':[{'id':parentId}]
+    	      		          }
+    	      	         });      
+   
+
+   		 
+   		 filereq.execute(function(json){
+   			 console.log("Created "+JSON.stringify(json));
+   			gapi.client.load('drive', 'v2', function() {
+   			parentreq = gapi.client.request({
+      	        'path': '/drive/v2/files/'+json.tableId+"/parents",
+      	        'method': 'POST',
+      	        'body':{
+      	          
+      	        "id":parentId
+      	         }});
+   			parentreq.execute(function(newjson){
+   				console.log("Parented "+JSON.stringify(newjson));
+   				cid = json.tableId;
+   			
+   				});
+   			});
+   			});
+   		 
+   			 
+   		 
+   		 });
+    		  }
+    	  });
+    	  $(".annomenu").html("<span><a href='#'>Select Notes File</a></span>");
+    	  
+    	  $(".annoContent").html("");
+    	$(".annoContent").html('<span id="textSelectionPrev"></span></span><textarea id="UserNoteBox"></textarea><span id="addNote">Add</span>');
+    	$("#addNote").unbind();
+    	
+    	$("#addNote").click(function(){
+    		
+    		addNote();
+    	  
+    	});
+    	
+      
+	});
+}
+function addNote(){
+	
+    lineabbrev = $("#textSelectionPrev").text();
+    note = $("#UserNoteBox").val();
+    prev=selAnchor;
+    while ((prev!=null)&&(prev.nodeName.toLowerCase()!="a")){
+		
+		if (next.nodeType==3){
+	
+			
+			prev = $(prev).parent();
+		}
+
+
+		prev = $(prev)[0].previousSibling;
+		
+	}
+    lineStart = parseInt(prev.id.lastIndexOf("_"))+1;
+ 
+    lineNum = parseInt(prev.id.substring(lineStart));
+
+	saveNote({"line":prev.id,"label":lineNum,"lemma":lineabbrev,"value":note});
+}
+function saveNote(noteObj){
+	
+	$("#UserNoteBox").val("");
+	console.log(JSON.stringify(noteObj));
+	
+	
+
+	ts = new Date().getTime();
+	//cid = "1OPeTUyTlVTFmxJqVM5sV0lutzFduYcDXElcINbA";
+	sql = "INSERT INTO "+cid+" ('timestamp',";
+	_.each(noteObj,function(value,key){
+		sql = sql+"'"+key+"',"
+	});		
+	sql = sql.substring(0,sql.length-1)+")";
+	sql=sql+"VALUES ('"+ts+"',";
+	_.each(noteObj,function(value){
+		sql = sql+"'"+value+"',"
+	});
+	sql = sql.substring(0,sql.length-1)+")";
+	
+	insertsql = gapi.client.request({
+		
+        'path': '/fusiontables/v1/query?sql='+encodeURIComponent(sql),
+        'method': 'POST'});
+insertsql.execute(function(resp){
+	 console.log(resp);
+	 noteObj.type="userNote";
+	 noteObj.id="un_"+ts;
+		newpos = _.sortedIndex(commentaryNotes,noteObj,function(val){
+			return val.line
+		});
+		commentaryNotes.splice(newpos,0,noteObj);
+		listNotes(commentaryNotes);
+ });
+}
+function checkTableValidity(id){
+	finalreq = gapi.client.request({
+	        'path': '/fusiontables/v1/tables/'+id,
+	        'method': 'GET'});
+	 finalreq.execute(function(resp){
+		 return (JSON.stringify(resp.columns)==JSON.stringify(notesSchema));
+	 });
+}
+function JSONreturned(data){
+	
+	callDocApi("files","checkDocList",encodeURIComponent("mimeType = 'application/vnd.google-apps.folder' and title='nvs_notes_folder'"));
+}
+
+
+function getLineAnchor(node){
+		while ((node!=null)&&(node.nodeName.toLowerCase()!="a")){
+		if (node.previousSibling==null){
+		
+			node=$(node).parent()[0];
+		}
+		else{
+		node = node.previousSibling;
+		}
+	}
+	return node;
+		
+}
+/*
+function registerLines(aselector,aindex,eName)
+{
+	var currentPosition = $(".textBody").scrollTop();
+	var tbh = parseInt(parseInt($(".textBody").height())/2);
+	var resolution = 20; // Distance between scroll points 
+	$.each($(aselector),function(key,value){
+		
+		elpos =$(value).offset().top;
+		mainPos = parseInt(elpos+currentPosition);
+		for (setPos=mainPos-tbh;setPos<mainPos+tbh;setPos=setPos+resolution){
+		if (_.isUndefined(aindex[""+setPos])){
+			aindex[""+setPos] = [];
+		}
+		aindex[""+setPos].push({"type":eName,"id":$(value).attr("id")});
+		}
+		$(value).mouseover(function(obj){
+			
+		
+			$(".textBody").trigger({"type":eName,"id":$(value).attr("id")});
+		
+		});
+	
+	});
+	
+	
+	
+	listNotes(commentaryNotes);
+	return;
+	
+}*/
+
+function showNote(notes,id){
+	console.log(id);
+	
+	thisnote = _.find(notes,function(note){
+		return note.id == id;
+	});
+	console.log(JSON.stringify(thisnote));
+	if (thisnote.line.indexOf(" ")>0){
+	textline = thisnote.line.substring(0,thisnote.line.indexOf(" "));
+	}
+	else{
+		textline = thisnote.line;
+	}
+	newPageIndex = _.find(noteIndex,function(num){
+		return num.id==textline;
+	});
+	goToPage(parseInt(newPageIndex.page))
+	
+	scrollText(textline);
+	highlightLine(textline);
+	noteHead = "<div><span class='noteViewNav'>Back</span> ";
+	if ($("#"+id).hasClass("userNote")){
+		noteHead = noteHead+"<span class='editNote'>Edit</span> "
+	}
+	noteHead=noteHead+"</div>";
+	$("#annoView").html(noteHead+"<div class='noteViewBody'>"+thisnote.label+" "+thisnote.lemma+" ] "+thisnote.value+"</div>");
+	$("#annoView").scrollTop(0);
+	$(".noteViewNav").click(function(){
+		listNotes(notes,id);
+		
+	});
+	$(".editNote").click(function(){
+		editNote(notes,id);
+	});
+}
+function goToPage(id){
+	currentPage = id;
+	console.log("Going to page: "+id);
+	imgId = _.find(pageImages,function(num){
+		return num.page == id;
+	})
+	console.log(imgId.folimage);
+	showImage(imgId.folimage)
+	$(".textBody").html(pages[(id-1)].html);
+}
+function editNote(notes,id){
+	thisnote = _.find(notes,function(note){
+		return note.id == id;
+	});
+	$("#textSelectionPrev").html("<strong>"+thisnote.lemma+"</strong> ] ");
+	$("#UserNoteBox").val(thisnote.value);
+	$("#addNote").replaceWith("<div class='editNoteOpts'><span class='saveEdit'>Save</span> <span class='deleteNote'>Delete</span></div>");
+	$(".saveEdit").click(function(){
+		saveEdit(notes,thisnote, $("#UserNoteBox").val());
+	});
+	$(".deleteNote").click(function(){
+		deleteNote(notes,thisnote);
+	});
+	
+}
+function deleteNote(notes,dnote){
+	$("#textSelectionPrev").html("");
+	$("#UserNoteBox").val("");
+	did = dnote.id.substring("un_".length);
+	console.log("deleted "+did);
+	
+	sql = "DELETE FROM "+cid+" WHERE ROWID = '"+did+"'";
+	
+	insertsql = gapi.client.request({
+		
+        'path': '/fusiontables/v1/query?sql='+encodeURIComponent(sql),
+        'method': 'POST'});
+insertsql.execute(function(resp){
+	 console.log(resp);
+	 index = _.indexOf(notes,dnote);
+	 notes.splice(index,1);
+	 listNotes(notes);});
+}
+function saveEdit(notes,thisnote,newtext){
+	deleteNote(notes,thisnote);
+	saveNote({"line":thisnote.line,"label":thisnote.label,"lemma":thisnote.lemma,"value":newtext});
+
+	console.log("edited");
+}
+function listNotes(notes,topNote){
+	$("#annoView").html("");
+	_.each(notes,function(value,key){
+		var txtNote= value.value.replace(/\<[^\>]*\>/g,"");
+		$("#annoView").append("<div id='"+value.id+"' class='footnote "+value.type+"'>"+value.label+" "+value.lemma+" ] </div>");
+		
+	});
+	$(".footnote").click(function(){
+		showNote(notes,$(this).attr("id"));
+		
+	});	
+	$(".footnote").mouseover(function(){
+		$(".selectedLine").removeClass("selectedLine");
+		$(this).addClass("selectedLine");	
+	});
+	
+	var loff = $("#"+topNote).offset();
+	
+	if (loff!=null){
+		
+		$("#annoView").scrollTop((parseFloat(loff.top+$("#annoView").scrollTop())-$("#annoView").offset().top));
+	}
+	unhighlight();
+	return;
+}
+function scrollText(line){
+	if (line){
+		
+		loff= $("#"+line).offset();
+		if (loff!=null){
+			$(".textBody").scrollTop((parseFloat(loff.top+$(".textBody").scrollTop())-$(".textBody").offset().top));
+		}
+
+	}
+	return;
+	
+}
+function pingLine(line){
+	
+	if (line){
+		
+		loff= $("#fn_"+line).offset();
+		if (loff!=null){
+			$("#annoView").scrollTop((parseFloat(loff.top+$("#annoView").scrollTop())-$("#annoView").offset().top));
+		}
+
+	}
+	return;
+}
+
+function handleScroll(){
+	
+	var scrollPos = parseInt($(".textBody").scrollTop())+$(".textBody").css("lineheight");
+	while ((_.isUndefined(lineIndex[""+scrollPos]))&&(scrollPos<$(".textBody").height)){
+		scrollPos++;
+	}
+	sel=lineIndex[""+scrollPos];
+	if (!(_.isUndefined(sel))){
+	$.each(sel,function(key,value){
+		
+		$(".textBody").trigger({"type":value.type,"id":value.id});
+	});
+	}
+
+}
+
+function getTextNodesIn(node, includeWhitespaceNodes) {
+// http://stackoverflow.com/questions/298750/how-do-i-select-text-nodes-with-jquery
+	var textNodes = [], whitespace = /^\s*$/;
+
+    function getTextNodes(node) {
+        if (node.nodeType == 3) {
+            if (includeWhitespaceNodes || !whitespace.test(node.nodeValue)) {
+                textNodes.push(node);
+            }
+        } else {
+            for (var i = 0, len = node.childNodes.length; i < len; ++i) {
+            	 if (node.childNodes[i].nodeName.toLowerCase()=="a"){
+                	break;
+                }
+            	getTextNodes(node.childNodes[i]);
+            }
+        }
+    }
+
+    getTextNodes(node);
+    return textNodes;
+}
+
+function highlightLine(line){
+	next=null;
+	console.log(line);
+	if ($("#"+line)[0]){
+	next = $("#"+line)[0].nextSibling;
+	}
+	while ((next!=null)&&(next.nodeName.toLowerCase()!="a")){
+		
+		if (next.nodeType==3){
+	
+			$(next).wrap("<span class='highlight'/>");
+			next = $(next).parent();
+		}
+		else{
+			tns = getTextNodesIn(next);
+			for (var i=0;i<tns.length;i++){
+				$(tns[i]).wrap("<span class='highlight'/>");
+			}
+		}
+
+		next = $(next)[0].nextSibling;
+		
+	}
+
+}
+function unhighlight(){
+	
+	$(".highlight").each(function(key,value){
+
+		$(value).contents().unwrap();
+	});
+	
+}
+currentPage = 1;
+function nextPage(){
+	currentPage++;
+	goToPage(currentPage);
+//	$(".textBody").html(pages[currentPage].html);
+}
+function prevPage(){
+	currentPage--;
+	goToPage(currentPage);
+	//$(".textBody").html(pages[currentPage].html);
+}
+//a note: <span id="textSelectionPrev"></span></span><textarea id="UserNoteBox"></textarea><span class="addNote">Add</span>
+</script>
+</head>
+<body>
+	<div class="container">
+		<div class="topMenu">
+			Menu <span class="login"><a href="#">Login</a></span>
+		</div>
+		<div class="container_body">
+
+			<div id="textView" class="textView">
+			<div class="textView">
+	<div class="textNavMenu">
+		<span class="textTitle">A Comedy of Errors</span>
+		<span class="navBar"></span>
+	</div>
+	<div class="textBody">
+	Loading...	
+	</div>
+	<span class="nextPage">Next</span> <span class="prevPage">Prev</span>
+</div>
+			</div>
+			<div class="rightCol">
+				<div class="viewBox" id="mediaView">
+					<ul class="jcarousel-skin-ie7" id="mycarousel"></ul>
+					<div class='pageLink'>Scroll text to this location</div>
+				</div>
+				<div class="noteBoxes">
+					<div class="viewBox" id="annoView">annoview</div>
+					<div class="editBox" id="editView">
+						<div class="annomenu">
+							<span class="login"><a href="#">Login</a></span><span
+								class="CreateNewDoc"></span>
+						</div>
+						<div class="annoContent"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<script type="text/javascript" src="./static/pages.json"></script> 
+
+
+</body>
+</html>
