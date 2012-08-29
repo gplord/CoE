@@ -420,6 +420,8 @@ a#next:hover {
 #footnotes {
 	left: 475px;
 	top: 315px;
+	color: #fff;
+	font-family: 'EB Garamond', serif;
 }
 
 a.footnote_color {

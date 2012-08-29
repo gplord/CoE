@@ -110,12 +110,12 @@ function scrollToLink(){
 	scrollText(line.id);
 }
 function showImage(id){
-	n = _.find(folioImages,function(value,key){
+	/*n = _.find(folioImages,function(value,key){
 		return value.id==id;
 	})
 	n = n.image;
 
-	//$('#mycarousel').jcarousel('scroll', parseInt(n),false);
+	$('#mycarousel').jcarousel('scroll', parseInt(n),false);*/
 	
 }
 function login(){
@@ -250,7 +250,8 @@ function selectDefaultNotes(container){
     	  $(".annomenu").html("<span><a href='#'>Select Notes File</a></span>");
     	  
     	  $(".annoContent").html("");
-    	$(".annoContent").html('<span id="textSelectionPrev"></span></span><textarea id="UserNoteBox"></textarea><span id="addNote">Add</span>');
+    	$(".annoContent").html('<span id="textSelectionPrev"></span></span><textarea id="UserNoteBox"></textarea>');
+    	$("#annotations_login").replaceWith("<a class='button' id='addNode'>Save</a>")
     	$("#addNote").unbind();
     	
     	$("#addNote").click(function(){
@@ -369,18 +370,20 @@ function showNote(notes,id){
 	
 	scrollText(textline);
 	highlightLine(textline);
-	noteHead = "<div><span class='noteViewNav'>Back</span> ";
+	$("#footnotes").append("<a id='footnotes_back' class='button'>&laquo; Back</a>");
 	if ($("#"+id).hasClass("userNote")){
-		noteHead = noteHead+"<span class='editNote'>Edit</span> "
+		$("#footnotes").append("<div class='button' id='editNote'>Edit</span>");
 	}
-	noteHead=noteHead+"</div>";
-	$("#annoView").html(noteHead+"<div class='noteViewBody'>"+thisnote.label+" "+thisnote.lemma+" ] "+thisnote.value+"</div>");
+	
+	$("#footnotes_list").html("<div class='noteViewBody'>"+thisnote.label+" "+thisnote.lemma+" ] "+thisnote.value+"</div>");
 	$("#annoView").scrollTop(0);
-	$(".noteViewNav").click(function(){
+	$("#footnotes_back").click(function(){
+		$("#footnotes_back").remove();
+		$("#editNote").remove();
 		listNotes(notes,id);
 		
 	});
-	$(".editNote").click(function(){
+	$("#footnotes_back").click(function(){
 		editNote(notes,id);
 	});
 }
@@ -438,7 +441,15 @@ function listNotes(notes,topNote){
 	
 	_.each(notes,function(value,key){
 		var txtNote= value.value.replace(/\<[^\>]*\>/g,"");
-		noteHTML = "<tr id='"+value.id+"' class='footnote "+value.type+"'><td class='notemediatype'></td><td class='noteNum'><a class='footnote_color tag1'>"+value.label+"</a></td><td class='noteLemma'>"+value.lemma+"</td></tr>";
+		if (value.type=="userNote"){
+		colorNum = 2;
+		}
+		else
+			{
+			colorNum=1;
+			}
+			noteHTML = "<tr id='"+value.id+"' class='footnote'><td class='notemediatype'></td><td class='noteNum'><a class='footnote_color tag"+colorNum+"'>"+value.label+"</a></td><td class='noteLemma'>"+value.lemma+"</td></tr>";
+		
 		$("#footnotes_list>table>tbody").append(noteHTML);
 	
 	});
