@@ -49,32 +49,6 @@ $('.tab').click(function() {
 	}
 });
 
-$("#progress ul li").hover(
-	function() {
-		$('#progress_preview').show();
-		$('#progress_seek').show();
-		$(window).mousemove(mouseProgressPreview);
-	},
-	function() {
-		$('#progress_preview').hide();
-		$('#progress_seek').hide();
-		$(window).unbind('mousemove', mouseProgressPreview);
-	}
-);
-$("#progress ul li").click(
-		function(){
-			
-			percent = parseFloat($('#progress_seek').width())/parseFloat($("#progress").width());
-			
-			aPage = parseInt(percent*pages.length);
-			goToPage(aPage);
-		});
-
-function mouseProgressPreview(e) {
-	var progress = $('#progress').offset();
-	$('#progress_preview').css({ cursor: 'move', left: e.pageX-progress.left-100});
-	$('#progress_seek').css({ cursor: 'move', width: e.pageX-progress.left+'px'});
-}
 
 
 $('#footnotes_back').click(function() {

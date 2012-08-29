@@ -10,6 +10,61 @@ var notesSchema = [{"kind":"fusiontables#column","columnId":0,"name":"timestamp"
 
 var token = "";
 $(document).ready(function(){
+	
+	
+	_.each(sceneIndex,function(val,key){
+		actsc = val.scene;
+		act = val.scene.substring("Act".length,val.scene.indexOf("Scene"));
+		scene = val.scene.substring(val.scene.indexOf("Scene")+"scene".length);
+		actsc = "act"+act+"_+"+scene;
+		if (key<sceneIndex.length-1){
+		$("#progress_line").append("<li id='act"+actsc+"'><a class='progress_marker'><p>Act "+act+", Scene "+scene+"</p></a></li>")
+		
+		len = parseInt(sceneIndex[key+1].page)-parseInt(val.page);
+		console.log("len "+len);
+		percent = parseInt((len/pages.length)*100);
+		console.log(percent);
+		$("#progress ul li#"+actsc).width(percent+"%");
+		}
+	
+	}	);
+		
+		
+	$("#progress ul li").hover(
+			function() {
+				$(window).mousemove(mouseProgressPreview);
+				percent = parseFloat($('#progress_seek').width())/parseFloat($("#progress").width());
+				aPage = parseInt(percent*pages.length);
+				console.log("prev page "+aPage);
+				p = pages[parseInt(aPage)-1];
+				console.log("P SCENE "+p.scene);
+				act = p.scene.substring("Act".length,p.scene.indexOf("Scene"));
+				scene = p.scene.substring(p.scene.indexOf("Scene")+"scene".length);
+				console.log(act+"  "+scene);
+				previewStuff = $(p.html).text().substring(0,50);
+				$("#progress_preview").html("<h3>Act "+act+", Scene "+scene+"</h3>"+previewStuff);
+			
+
+				$('#progress_preview').show();
+				$('#progress_seek').show();
+			
+			},
+			function() {
+				$('#progress_preview').hide();
+				$('#progress_seek').hide();
+				$(window).unbind('mousemove', mouseProgressPreview);
+			}
+		);
+		$("#progress ul li").click(
+				function(){
+					
+					percent = parseFloat($('#progress_seek').width())/parseFloat($("#progress").width());
+					
+					aPage = parseInt(percent*pages.length);
+					goToPage(aPage);
+				});
+
+		
 
 	lineIndex=new Object;
 	
@@ -66,7 +121,12 @@ $(document).ready(function(){
 		prevPage();
 	})
 });
-
+function mouseProgressPreview(e) {
+	var progress = $('#progress').offset();
+	$('#progress_preview').css({ cursor: 'move', left: e.pageX-progress.left-100});
+	$('#progress_seek').css({ cursor: 'move', width: e.pageX-progress.left+'px'});
+	return;
+}
 function scrollToLink(){
 	carousel = $('#mycarousel').data('jcarousel');
 	num = carousel.first;
