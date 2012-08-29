@@ -38,7 +38,7 @@
                         ];
 
  imageList = [
-             // {"n":1, "url":"./static/images/folio/032983.jpg"},
+              {"n":0, "url":"./assets/images/folio/032983.jpg"},
               {"n":1, "url": "./assets/images/folio/033036.jpg"},
              
               {"n":2, "url": "./assets/images/folio/033036.jpg"},

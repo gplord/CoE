@@ -4,7 +4,7 @@
 
 .speaker {
 	font-weight: bold;
-	display: inline;
+	display: block;
 	padding-right: 1em;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .p {
-	display: inline;
+	display: block;
 }
 
 
@@ -31,12 +31,11 @@
 .playtext {
 	width: 400px;
 	padding-left: 5px;
+	margin-left:50px
 }
-.playtext>div{
-	margin-left: 50px;
-}
-.playtext>em{
-	padding-left: 50px;
+
+.em{
+	font-style: italic;
 }
 .userNote{
 background-color: cyan;
@@ -55,6 +54,7 @@ background-color: cyan;
 a.ref_line {
 
 	float: right;
+	margin-right: 2em;
 
 }
 
@@ -90,4 +90,12 @@ ul {
 #mycarousel {
 	height: 225px;
 	width: 500px;
+}
+em{
+	font-style:italic;
+}
+.imgBox{
+ overflow:auto;	
+ height: 270px;
+	width: 515px;
 }

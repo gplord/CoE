@@ -3,35 +3,10 @@ var currentDoc = null;
 var cid = 0;
 var selAnchor = null;
 var notesSchema = [{"kind":"fusiontables#column","columnId":0,"name":"timestamp","type":"DATETIME"},{"kind":"fusiontables#column","columnId":1,"name":"line","type":"STRING"},{"kind":"fusiontables#column","columnId":2,"name":"label","type":"STRING"},{"kind":"fusiontables#column","columnId":3,"name":"lemma","type":"STRING"},{"kind":"fusiontables#column","columnId":4,"name":"value","type":"STRING"}];
-function mycarousel_itemLoadCallback(carousel, state)
-{
-	
-    for (var i = carousel.first; i <= carousel.last; i++) {
-        if (carousel.has(i)) {
-            continue;
-        }
 
-        if (i > imageList.length) {
-            break;
-        }
-		
-        carousel.add(i, mycarousel_getItemHTML(imageList[i-1]));
-    }
 
-	$(".pageImage").fancybox({
-		'transitionIn'		: 'none',
-		'transitionOut'		: 'none'
-	});
-	$("#page").trigger({"type":"imgChanged","id":carousel.first});
-	
-    
-};
-function mycarousel_getItemHTML(item)
-{
+	  
 
-	   return "<a rel='pageImage' class='pageImage' href='"+item.url+"'><img height=225 src='"+item.url+"'/></a>";
-
-};
 
 var token = "";
 $(document).ready(function(){
@@ -77,13 +52,6 @@ $(document).ready(function(){
 	
 	});
 
-	imgCarousel = $('#mycarousel').jcarousel({
-        size: imageList.length,
-        scroll: 1,
-        visible: 1,
-        itemLoadCallback: {onBeforeAnimation: mycarousel_itemLoadCallback},
-        wrap: 'circular'
-    });
 	goToPage(1);
 	$(".pageLink").click(function(){
 		scrollToLink();
@@ -110,12 +78,24 @@ function scrollToLink(){
 	scrollText(line.id);
 }
 function showImage(id){
-	/*n = _.find(folioImages,function(value,key){
+	console.log(id);
+	if (id.toLowerCase()=="front"){
+		num=0
+	}
+	else{
+	n = _.find(folioImages,function(value,key){
 		return value.id==id;
 	})
-	n = n.image;
-
-	$('#mycarousel').jcarousel('scroll', parseInt(n),false);*/
+	num = parseInt(n.image);
+	}
+	console.log(num);
+	url = imageList[num].url;
+	
+	$("#frame_tab_book").html("<div class='imgBox'><a rel='pageImage' class='pageImage' href='"+url+"'><img src='"+url+"'/></a></div>");
+	$(".pageImage").fancybox({
+		'transitionIn'		: 'none',
+		'transitionOut'		: 'none'
+	});
 	
 }
 function login(){
@@ -390,16 +370,17 @@ function showNote(notes,id){
 function goToPage(id){
 	currentPage = id;
 	console.log("Going to page: "+id);
-	imgId = _.find(pageImages,function(num){
+	/*imgId = _.find(pageImages,function(num){
 		return num.page == id;
-	})
+	})*/
+	imgId = pages[(id-1)].fol;
 	$("#page_number").text(id);
 	$("#total_pages").text(pages.length);
 	percent = id/pages.length;
 	
 	$("#progress_bar").width(""+parseInt(percent*100)+"%");
-	console.log(imgId.folimage);
-	showImage(imgId.folimage)
+	console.log(imgId);
+	showImage(imgId)
 	$("#page").html(pages[(id-1)].html);
 }
 function editNote(notes,id){
