@@ -393,6 +393,11 @@ function goToPage(id){
 	imgId = _.find(pageImages,function(num){
 		return num.page == id;
 	})
+	$("#page_number").text(id);
+	$("#total_pages").text(pages.length);
+	percent = id/pages.length;
+	
+	$("#progress_bar").width(""+parseInt(percent*100)+"%");
 	console.log(imgId.folimage);
 	showImage(imgId.folimage)
 	$("#page").html(pages[(id-1)].html);
