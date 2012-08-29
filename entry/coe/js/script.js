@@ -65,7 +65,7 @@ $("#progress ul li").click(
 		function(){
 			
 			percent = parseFloat($('#progress_seek').width())/parseFloat($("#progress").width());
-			alert(percent);
+			
 			aPage = parseInt(percent*pages.length);
 			goToPage(aPage);
 		});
