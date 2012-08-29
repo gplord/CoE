@@ -14,7 +14,9 @@
  */
 
 /*global window, jQuery */
+
 (function($) {
+
     // Default configuration properties.
     var defaults = {
         vertical: false,
@@ -60,6 +62,7 @@
      * @cat Plugins/jCarousel
      */
     $.jcarousel = function(e, o) {
+    	alert("ding");
         this.options    = $.extend({}, defaults, o || {});
 
         this.locked          = false;

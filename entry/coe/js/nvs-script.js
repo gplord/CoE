@@ -3,7 +3,7 @@ var currentDoc = null;
 var cid = 0;
 var selAnchor = null;
 var notesSchema = [{"kind":"fusiontables#column","columnId":0,"name":"timestamp","type":"DATETIME"},{"kind":"fusiontables#column","columnId":1,"name":"line","type":"STRING"},{"kind":"fusiontables#column","columnId":2,"name":"label","type":"STRING"},{"kind":"fusiontables#column","columnId":3,"name":"lemma","type":"STRING"},{"kind":"fusiontables#column","columnId":4,"name":"value","type":"STRING"}];
-function frame_tab_book_itemLoadCallback(carousel, state)
+function mycarousel_itemLoadCallback(carousel, state)
 {
 	
     for (var i = carousel.first; i <= carousel.last; i++) {
@@ -15,8 +15,9 @@ function frame_tab_book_itemLoadCallback(carousel, state)
             break;
         }
 		
-        carousel.add(i, frame_tab_book_getItemHTML(imageList[i-1]));
+        carousel.add(i, mycarousel_getItemHTML(imageList[i-1]));
     }
+
 	$(".pageImage").fancybox({
 		'transitionIn'		: 'none',
 		'transitionOut'		: 'none'
@@ -25,10 +26,10 @@ function frame_tab_book_itemLoadCallback(carousel, state)
 	
     
 };
-function frame_tab_book_getItemHTML(item)
+function mycarousel_getItemHTML(item)
 {
 
-	   return "<a rel='pageImage' class='pageImage' href='"+item.url+"'><img width=375 src='"+item.url+"'/></a>";
+	   return "<a rel='pageImage' class='pageImage' href='"+item.url+"'><img height=225 src='"+item.url+"'/></a>";
 
 };
 
@@ -62,7 +63,7 @@ $(document).ready(function(){
 		}
 		$("#textSelectionPrev").html("<strong>"+selPrev+"</strong> ] ");
 	});
-	$(".login").click(function(){
+	$("#annotations_login").click(function(){
 		  var config = {
 			      'client_id': '591726924587.apps.googleusercontent.com',
 			      'scope': ['https://www.googleapis.com/auth/drive',"https://www.googleapis.com/auth/fusiontables"]
@@ -75,13 +76,14 @@ $(document).ready(function(){
 
 	
 	});
-	/*imgCarousel = $('#frame_tab_book').jcarousel({
+
+	imgCarousel = $('#mycarousel').jcarousel({
         size: imageList.length,
         scroll: 1,
         visible: 1,
-        itemLoadCallback: {onBeforeAnimation: frame_tab_book_itemLoadCallback},
+        itemLoadCallback: {onBeforeAnimation: mycarousel_itemLoadCallback},
         wrap: 'circular'
-    });*/
+    });
 	goToPage(1);
 	$(".pageLink").click(function(){
 		scrollToLink();
@@ -98,7 +100,7 @@ $(document).ready(function(){
 });
 
 function scrollToLink(){
-	carousel = $('#frame_tab_book').data('jcarousel');
+	carousel = $('#mycarousel').data('jcarousel');
 	num = carousel.first;
 	
 	img = imageList[(parseInt(num)-1)]["n"];
@@ -113,7 +115,7 @@ function showImage(id){
 	})
 	n = n.image;
 
-	//$('#frame_tab_book').jcarousel('scroll', parseInt(n),false);
+	//$('#mycarousel').jcarousel('scroll', parseInt(n),false);
 	
 }
 function login(){
@@ -436,9 +438,9 @@ function listNotes(notes,topNote){
 	
 	_.each(notes,function(value,key){
 		var txtNote= value.value.replace(/\<[^\>]*\>/g,"");
-		noteHTML = "<tr id='"+value.id+"' class='footnote "+value.type+"'><td class='notemediatype'></td><td class='noteNum'>"+value.label+"</td><td class='noteLemma'>"+value.lemma+"</td></tr>";
+		noteHTML = "<tr id='"+value.id+"' class='footnote "+value.type+"'><td class='notemediatype'></td><td class='noteNum'><a class='footnote_color tag1'>"+value.label+"</a></td><td class='noteLemma'>"+value.lemma+"</td></tr>";
 		$("#footnotes_list>table>tbody").append(noteHTML);
-		console.log(value.id);
+	
 	});
 	$(".footnote").click(function(){
 		showNote(notes,$(this).attr("id"));
@@ -523,6 +525,7 @@ function getTextNodesIn(node, includeWhitespaceNodes) {
 }
 
 function highlightLine(line){
+
 	next=null;
 	console.log(line);
 	if ($("#"+line)[0]){

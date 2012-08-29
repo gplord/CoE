@@ -82,3 +82,12 @@ ul {
 .align-center {
 	text-align: center;
 }
+.highlight{
+	background-color:yellow;
+}
+
+
+#mycarousel {
+	height: 225px;
+	width: 500px;
+}
