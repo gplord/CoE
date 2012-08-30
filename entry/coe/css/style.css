@@ -486,6 +486,47 @@ a#next:hover {
 #frame_tab_map {	
 	font-size: 12px;
 }
+#map_key {
+	float: right;
+}
+#map_key h4 {
+	position: relative;
+	left: -25px;
+	font-size: 14px;
+	font-variant: small-caps;
+	margin-bottom: .5em;
+}
+li.key_red, li.key_blue, li.key_green, li.key_yellow,
+li.key_orange, li.key_purple, li.key_black, li.key_grey,
+li.key_brown, li.key_teal {
+	position: relative;
+}
+li.key_red:before, li.key_blue:before, li.key_green:before, li.key_yellow:before,
+li.key_orange:before, li.key_purple:before, li.key_black:before, li.key_grey:before,
+li.key_brown:before, li.key_teal:before {
+	content: ' ';
+	display: block;
+	position: absolute;
+	height: 10px;
+	width: 10px;
+	left: -20px;
+	margin-left: -5px;
+	margin-top: 1px;
+	box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.35);
+	-webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.35);
+	
+}
+li.key_red:before { background: red; }
+li.key_orange:before { background: orange; }
+li.key_yellow:before { background: gold; }
+li.key_green:before { background: green; }
+li.key_teal:before { background: teal; }
+li.key_blue:before { background: blue; }
+li.key_purple:before { background: purple; }
+li.key_brown:before { background: brown; }
+li.key_black:before { background: black; }
+li.key_grey:before { background: #555; }
+
 #frame_tab_book {
 }
 
