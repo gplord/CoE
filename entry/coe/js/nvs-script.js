@@ -101,7 +101,7 @@ $(document).ready(function(){
 		if (selPrev.length>15){
 			selPrev = selPrev.substring(0,selPrev.indexOf(" "))+"..."+selPrev.substring(selPrev.lastIndexOf(" "));
 		}
-		$("#textSelectionPrev").html("<strong>"+selPrev+"</strong> ] ");
+		$("#textSelectionPrev").html("<strong>"+selPrev+"</strong>");
 	});
 	$("#annotations_login").click(function(){
 		  var config = {
@@ -170,6 +170,8 @@ function showImage(id){
 	
 }
 function login(){
+
+	$(".annoContent").show()
 
     gapi.client.load('drive', 'v2', function() {
         var request = gapi.client.drive.files.list({
@@ -466,7 +468,7 @@ function editNote(notes,id){
 	thisnote = _.find(notes,function(note){
 		return note.id == id;
 	});
-	$("#textSelectionPrev").html("<strong>"+thisnote.lemma+"</strong> ] ");
+	$("#textSelectionPrev").html("<strong>"+thisnote.lemma+"</strong>");
 	$("#UserNoteBox").val(thisnote.value);
 	$("#addNote").replaceWith("<div class='editNoteOpts'><span class='saveEdit'>Save</span> <span class='deleteNote'>Delete</span></div>");
 	$(".saveEdit").click(function(){

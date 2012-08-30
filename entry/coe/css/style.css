@@ -431,7 +431,7 @@ a.footnote_color {
 	color: #fff;
 	cursor: pointer;
 	display: block;
-	width: 15px;
+	/*width: 15px;*/
 	height: 15px;
 	text-align: center;
 	vertical-align: top;
@@ -483,6 +483,19 @@ a.footnote_color.tag2:hover {
 	-webkit-box-shadow:  0px 1px 0px 1px rgba(0, 0, 0, 0.25);*/
 }
 
+.noteViewBody {
+	padding: 5px;
+}
+.noteViewBody p {
+	color: #afafa3;
+	font-size: 14px;
+	line-height: 125%;
+	margin-top: .5em;
+}
+
+
+
+
 a.button {
 	background: rgba(0,0,0,0.5);
 	border-radius: 5px;
@@ -503,6 +516,10 @@ a.button:hover {
 #footnotes_back {
 	left: 0;
 }
+#annotations_login {
+	width: auto;
+	padding: 5px 15px;
+}
 #annotations_save {
 	right: 0px;
 }
@@ -512,10 +529,121 @@ a.button:hover {
 
 
 
-
 #annotations {
-	background: #3c352e url('../img/google.jpg') no-repeat 170px 10px;
+	/*background: #3c352e url('../img/google.jpg') no-repeat 170px 10px;*/
+	background: #3c352e url('../img/annotations.png') no-repeat center center;
 	left: 730px;
 	top: 315px;
 }
+.annoContent {
+	background: #3c352e;
+	display: none;
+	height: 100%;
+	padding-right: 5px
+}
+.annoContent strong {
+	color: #afafa3;	
+	display: block;
+	font-style: italic;
+	margin-bottom: .5em;
+}
+#UserNoteBox {
+	width: 100%;
+}
 
+#testMapPin {
+	position: absolute;	left: 50px;	top: 100px;
+	z-index:10;
+}
+#testMapPin2 {
+	position: absolute;	left: 100px;	top: 100px;
+	z-index:10;
+}
+#testMapPin3 {
+	position: absolute;	left: 150px;	top: 100px;
+	z-index:10;
+}
+#testMapPin4 {
+	position: absolute;	left: 200px;	top: 100px;
+	z-index:10;
+}
+#testMapPin5 {
+	position: absolute;	left: 50px;	top: 150px;
+	z-index:10;
+}
+#testMapPin6 {
+	position: absolute;	left: 100px;	top: 150px;
+	z-index:10;
+}
+#testMapPin7 {
+	position: absolute;	left: 150px;	top: 150px;
+	z-index:10;
+}
+#testMapPin8 {
+	position: absolute;	left: 200px;	top: 150px;
+	z-index:10;
+}
+#testMapPin9 {
+	position: absolute;	left: 50px;	top: 200px;
+	z-index:10;
+}
+
+a.map_pin_green, a.map_pin_red, 
+a.map_pin_blue, a.map_pin_orange, 
+a.map_pin_yellow, a.map_pin_purple, 
+a.map_pin_brown, a.map_pin_black,
+a.map_pin_grey, a.map_pin_teal {
+	background-color: #555;
+	border: 2px solid transparent;
+	border-radius: 5px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 12px;
+	height: 20px;
+	line-height: 125%;
+	padding: 5px;
+	padding-bottom: 0;
+	position: absolute;
+	text-align: center;
+	text-shadow: 0px 1px rgba(0,0,0,0.65);
+	font-style: italic;
+	box-shadow:  0px 2px 1px 1px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow:  0px 2px 1px 1px rgba(0, 0, 0, 0.15);
+}
+a.map_pin_green:after, a.map_pin_red:after, 
+a.map_pin_blue:after, a.map_pin_orange:after, 
+a.map_pin_yellow:after, a.map_pin_purple:after, 
+a.map_pin_brown:after, a.map_pin_black:after,
+a.map_pin_grey:after, a.map_pin_teal:after {
+	content: ' ';
+	height: 0;
+	position: absolute;
+	width: 0;
+	border: 5px solid transparent;
+	border-top-color: #555;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+}
+a.map_pin:hover {
+	border: 2px solid #fff;
+}
+
+a.map_pin_green { background-color: green; }
+a.map_pin_green:after {	border-top-color: green; }
+a.map_pin_red { background-color: red; }
+a.map_pin_red:after {	border-top-color: red; }
+a.map_pin_blue { background-color: blue; }
+a.map_pin_blue:after {	border-top-color: blue; }
+a.map_pin_orange { background-color: orange; }
+a.map_pin_orange:after {	border-top-color: orange; }
+a.map_pin_yellow { background-color: gold; }
+a.map_pin_yellow:after {	border-top-color: gold; }
+a.map_pin_purple { background-color: purple; }
+a.map_pin_purple:after {	border-top-color: purple; }
+a.map_pin_brown { background-color: brown; }
+a.map_pin_brown:after {	border-top-color: brown; }
+a.map_pin_black { background-color: black; }
+a.map_pin_black:after {	border-top-color: black; }
+a.map_pin_teal { background-color: teal; }
+a.map_pin_teal:after {	border-top-color: teal; }
