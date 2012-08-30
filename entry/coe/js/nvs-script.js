@@ -9,7 +9,17 @@ var notesSchema = [{"kind":"fusiontables#column","columnId":0,"name":"timestamp"
 
 
 var token = "";
+function captureScroll(){
+	x = $(".imgBox").scrollLeft();
+	
+	y = $(".imgBox").scrollTop();
+	console.log(currentPage+" "+x+" "+y);
+	old = $("#coords").val();
+	$("#coords").val(old+"{'page':"+currentPage+"','y':'"+y+"','x':'"+x+"'},");
+	
+}
 $(document).ready(function(){
+	//$("#annotations").html("<textarea rows=100 cols=100 id='coords'></textarea>")
 	
 	
 	_.each(sceneIndex,function(val,key){
@@ -146,6 +156,7 @@ function showImage(id){
 	n = _.find(folioImages,function(value,key){
 		return value.id==id;
 	})
+	console.log(id+" "+n);
 	num = parseInt(n.image);
 	}
 	console.log(num);
@@ -442,6 +453,14 @@ function goToPage(id){
 	console.log(imgId);
 	showImage(imgId)
 	$("#page").html(pages[(id-1)].html);
+	pageCord = _.find(imagePositions,function(val){
+		console.log(val);
+		return parseInt(val.page)==currentPage;
+	});
+
+	
+	$(".imgBox").scrollTop(pageCord.y);
+	$(".imgBox").scrollLeft(pageCord.x);
 }
 function editNote(notes,id){
 	thisnote = _.find(notes,function(note){

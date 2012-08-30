@@ -34,7 +34,8 @@
                        { "id": "I1vb", "image":"10"},
                        { "id": "I2a", "image":"10"},
                        { "id": "I2b", "image":"10"},
-                       
+                       { "id": "I2va", "image":"10"},
+                       { "id": "I2vb", "image":"10"},
                         ];
 
  imageList = [
