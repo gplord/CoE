@@ -19,22 +19,21 @@ function captureScroll(){
 	
 }
 $(document).ready(function(){
-	//$("#annotations").html("<textarea rows=100 cols=100 id='coords'></textarea>")
 	
 	
-	_.each(sceneIndex,function(val,key){
+	_.each(pages,function(val,key){
 		actsc = val.scene;
-		act = val.scene.substring("Act".length,val.scene.indexOf("Scene"));
-		scene = val.scene.substring(val.scene.indexOf("Scene")+"scene".length);
+		scin = actsc.indexOf("Scene");
+		act = val.scene.substring(3,scin);
+		scin = scin+5;
+		scene = val.scene.substring(scin);
 		actsc = "act"+act+"_+"+scene;
-		if (key<sceneIndex.length-1){
-		$("#progress_line").append("<li id='act"+actsc+"'><a class='progress_marker'><p>Act "+act+", Scene "+scene+"</p></a></li>")
 		
-		len = parseInt(sceneIndex[key+1].page)-parseInt(val.page);
-		console.log("len "+len);
-		percent = parseInt((len/pages.length)*100);
-		console.log(percent);
-		$("#progress ul li#"+actsc).width(percent+"%");
+		if (key<pages.length-1){
+		$("#progress_line").append("<li class='progress_slice' id='page_"+key+"'><a class='progress_marker'><p>Act "+act+", Scene "+scene+"</p></a></li>")
+
+		sliceWidth = parseInt((340/pages.length));
+		$(".progress_slice").width(sliceWidth+"px");
 		}
 	
 	}	);
@@ -43,13 +42,17 @@ $(document).ready(function(){
 	$("#progress ul li").hover(
 			function() {
 				$(window).mousemove(mouseProgressPreview);
-				percent = parseFloat($('#progress_seek').width())/parseFloat($("#progress").width());
-				aPage = parseInt(percent*pages.length);
-				console.log("prev page "+aPage);
+			
+				aPage = $(this).attr("id").substring(5);
 				p = pages[parseInt(aPage)-1];
-				console.log("P SCENE "+p.scene);
-				act = p.scene.substring("Act".length,p.scene.indexOf("Scene"));
-				scene = p.scene.substring(p.scene.indexOf("Scene")+"scene".length);
+			
+				if (p){
+					actsc = p.scene;
+					scin = actsc.indexOf("Scene");
+					act = p.scene.substring(3,scin);
+					scin = scin+5;
+					scene = p.scene.substring(scin);
+					actsc = "act"+act+"_+"+scene;
 				console.log(act+"  "+scene);
 				previewStuff = $(p.html).text().substring(0,50);
 				$("#progress_preview").html("<h3>Act "+act+", Scene "+scene+"</h3>"+previewStuff);
@@ -57,6 +60,7 @@ $(document).ready(function(){
 
 				$('#progress_preview').show();
 				$('#progress_seek').show();
+				}
 			
 			},
 			function() {
@@ -66,11 +70,9 @@ $(document).ready(function(){
 			}
 		);
 		$("#progress ul li").click(
-				function(){
-					
-					percent = parseFloat($('#progress_seek').width())/parseFloat($("#progress").width());
-					
-					aPage = parseInt(percent*pages.length);
+				function(e){
+					console.log("CLICKED "+$(this)[0]);
+					aPage = parseInt($(this).attr("id").substring(5));
 					goToPage(aPage);
 				});
 
@@ -148,7 +150,7 @@ function scrollToLink(){
 	scrollText(line.id);
 }
 function showImage(id){
-	console.log(id);
+	
 	if (id.toLowerCase()=="front"){
 		num=0
 	}
@@ -156,10 +158,10 @@ function showImage(id){
 	n = _.find(folioImages,function(value,key){
 		return value.id==id;
 	})
-	console.log(id+" "+n);
+	
 	num = parseInt(n.image);
 	}
-	console.log(num);
+	
 	url = imageList[num].url;
 	
 	$("#frame_tab_book").html("<div class='imgBox'><a rel='pageImage' class='pageImage' href='"+url+"'><img src='"+url+"'/></a></div>");
@@ -449,14 +451,14 @@ function goToPage(id){
 	imgId = pages[(id-1)].fol;
 	$("#page_number").text(id);
 	$("#total_pages").text(pages.length);
-	percent = id/pages.length;
+	percent = 340/pages.length;
 	
-	$("#progress_bar").width(""+parseInt(percent*100)+"%");
+	$("#progress_bar").width(""+parseInt(percent)+"%");
 	console.log(imgId);
 	showImage(imgId)
 	$("#page").html(pages[(id-1)].html);
 	pageCord = _.find(imagePositions,function(val){
-		console.log(val);
+
 		return parseInt(val.page)==currentPage;
 	});
 
