@@ -3,11 +3,14 @@ body {
 	background: #362f2d url('../img/bkgd_page.jpg') no-repeat center top;
 	font-family: 'EB Garamond', serif;
 }
-#container {
+#container, #container_full {
 	background: url('../img/bkgd_container.png') repeat-y center top;
 	height: 100%;
 	margin: 0 auto;
 	width: 1024px;
+}
+#container_full {
+	height: auto;
 }
 
 header {
@@ -50,12 +53,15 @@ nav ul li a {
 nav ul li a:hover {
 	background: rgba(0,0,0,0.25);
 }
-#main {
+#main, #main_full {
 	background: #50473e;
 	margin: 0 auto;
 	position: relative;
 	width: 984px;
 	height: 610px;
+}
+#main_full {
+	height: auto;
 }
 #book {
 	background: url('../img/bkgd_book.png') no-repeat top left;
@@ -292,6 +298,82 @@ a#next:hover {
 	left: 50%;
 	margin-left: -10px;
 }
+
+#media_full {
+	width: 1024px;
+	position: absolute;
+	left: -35px;
+	z-index: 2;
+}
+#media_frame_full {
+	background-image: linear-gradient(bottom, #f5b731 0%, #f8c965 65%);
+	background-image: -o-linear-gradient(bottom, #f5b731 0%, #f8c965 65%);
+	background-image: -moz-linear-gradient(bottom, #f5b731 0%, #f8c965 65%);
+	background-image: -webkit-linear-gradient(bottom, #f5b731 0%, #f8c965 65%);
+	background-image: -ms-linear-gradient(bottom, #f5b731 0%, #f8c965 65%);
+	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, #f5b731),color-stop(0.65, #f8c965));
+	box-shadow:  0px 5px 10px 3px rgba(0, 0, 0, 0.35);
+	-webkit-box-shadow:  0px 5px 10px 3px rgba(0, 0, 0, 0.35);
+	width: 1024px;
+	position: relative;
+	padding: 15px;
+	text-align: center;
+}
+#media_full h1 {
+	background: rgba(0,0,0,0.2);
+	border-radius: 10px;
+	color: #fff;
+	display: inline-block;
+	font-size: 30px;
+	font-style: italic;
+	padding: 10px 20px;
+	text-shadow: 0px 2px rgba(0,0,0,0.65);
+}
+
+#media_full+.section {
+	padding-top: 100px;
+}
+
+.section p, .section_alt p {
+	margin-bottom: 1em;
+}
+.section, .section_alt {
+	color: #afafa3;
+	line-height: 150%;
+	padding: 30px;
+	clear: both;
+}
+.section_alt {
+	background: rgba(0,0,0,0.25);
+}
+.section h2, .section_alt h2 {
+	color: #fff;
+	font-size: 24px;
+	font-style: italic;
+	margin-bottom: .5em;
+	text-shadow: 0px 2px rgba(0,0,0,0.65);
+}
+.section_alt h2 {
+	text-align: right;
+}
+.section img, .section_alt img {
+	border: 5px solid #fff;
+	box-shadow:  0px 3px 5px 1px rgba(0, 0, 0, 0.35);
+	-webkit-box-shadow:  0px 3px 5px 1px rgba(0, 0, 0, 0.35);
+	margin-top: .5em;
+	margin-bottom: 1em;
+}
+.section img {
+	clear: right;
+	float: right;
+	margin-left: 1em;
+}	
+.section_alt img {
+	clear: left;
+	float: left;
+	margin-right: 1em;
+}
+
 
 #media {
 	background: url('../img/bkgd_media.png') no-repeat 525px 300px;
@@ -647,3 +729,10 @@ a.map_pin_black { background-color: black; }
 a.map_pin_black:after {	border-top-color: black; }
 a.map_pin_teal { background-color: teal; }
 a.map_pin_teal:after {	border-top-color: teal; }
+
+
+footer {
+	color: ##3c352e;
+	height: 50px;
+	padding: 15px 40px;
+}
