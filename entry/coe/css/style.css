@@ -221,10 +221,10 @@ a#next:hover {
 	background-position: top center;
 	cursor: pointer;
 	display: block;
-	width: 9px;
+	width: 1px;
 	height: 10px;
 	position: absolute;
-	left: -4px;
+	left: 0;
 	top: 0;
 	z-index:10;
 }
