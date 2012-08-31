@@ -647,7 +647,9 @@ a.button:hover {
 #annotations_delete {
 	right: 70px;
 }
-
+#deleteNote{
+	right: 40px;
+}
 #addNode {
 	position: absolute;
 	left: 10px;

@@ -122,7 +122,7 @@ $(document).ready(function(){
 
 	$("#page").mouseup(function(){
 		if ($('.editNoteOpts').size()>0){
-		$(".editNoteOpts").replaceWith("<span id='addNote'>Add</span>");
+		$(".editNoteOpts").replaceWith("<span class='button' id='addNote'>Add</span>");
 		$("#addNote").unbind();
 		
 		$("#addNote").click(function(){
@@ -528,7 +528,7 @@ function showNote(notes,id){
 	$("#footnotes").append("<a id='footnotes_back' class='button'>&laquo; Back</a>");
 	if ($("#"+id+">.noteNum>a").hasClass("userNote")){
 		
-		$("#footnotes").append("<a class='button' id='editNote'>Edit</span>");
+		$("#footnotes").append("<a class='button' id='editNote'>Edit</a>");
 	}
 	
 	//$("#footnotes_list").html("<div class='noteViewBody'>"+thisnote.label+" "+thisnote.lemma+" ] "+thisnote.value+"</div>");
@@ -545,7 +545,7 @@ function showNote(notes,id){
 		listNotes(notes,id);
 		
 	});
-	$("#footnotes_back").click(function(){
+	$("#editNote").click(function(){
 		editNote(notes,id);
 	});
 }
@@ -598,11 +598,11 @@ function editNote(notes,id){
 	});
 	$("#textSelectionPrev").html("<strong>"+thisnote.lemma+"</strong>");
 	$("#UserNoteBox").val(thisnote.value);
-	$("#addNote").replaceWith("<div class='editNoteOpts'><span class='saveEdit'>Save</span> <span class='deleteNote'>Delete</span></div>");
-	$(".saveEdit").click(function(){
+	$("#addNote").replaceWith("<div class='editNoteOpts'><a class='button' id='saveEdit'>Save</a> <a class='button' id='deleteNote'>Delete</a></div>");
+	$("#saveEdit").click(function(){
 		saveEdit(notes,thisnote, $("#UserNoteBox").val());
 	});
-	$(".deleteNote").click(function(){
+	$("#deleteNote").click(function(){
 		deleteNote(notes,thisnote);
 	});
 	
