@@ -18,8 +18,35 @@ function captureScroll(){
 	$("#coords").val(old+"{'page':"+currentPage+"','y':'"+y+"','x':'"+x+"'},");
 	
 }
-$(document).ready(function(){
+function captureKeys(){
+$(window).keydown(function(e){
+
+	switch (e.which){
+	case (65):
+		
+		console.log(findLine().id)
+		
+	break	
+	case (39):
+		nextPage();
+	break;
+	case (40):
+		nextPage();
+	break;
+	case (37):
+		prevPage();
+	break;
+	case (38):
+		prevPage();
+	break;
 	
+	}	
+
+}
+);
+}
+$(document).ready(function(){
+	captureKeys();
 	
 	_.each(pages,function(val,key){
 		actsc = val.scene;
@@ -30,9 +57,9 @@ $(document).ready(function(){
 		actsc = "act"+act+"_+"+scene;
 		
 		if (key<pages.length-1){
-		$("#progress_line").append("<li class='progress_slice' id='page_"+key+"'><a class='progress_marker'><p>Act "+act+", Scene "+scene+"</p></a></li>")
+		$("#progress_line").append("<li class='progress_slice' id='page_"+key+"'><a class='progress_marker'></a></li>")
 
-		sliceWidth = parseInt((340/pages.length));
+		sliceWidth = parseFloat((340/pages.length));
 		$(".progress_slice").width(sliceWidth+"px");
 		}
 	
@@ -132,7 +159,18 @@ $(document).ready(function(){
 		$("#prev").click(function(){
 		prevPage();
 	})
+		
 });
+function loadData(key) {
+	var dataurl = 'https://spreadsheets.google.com/feeds/list/'+key+''/od6/public/values?alt=json-in-script&callback=spreadsheetLoaded';
+	$.ajax({
+	  url: dataurl,
+	  dataType: 'jsonP',
+	  jsonpCallback: "spreadsheetLoaded",
+	    success: function(data){
+	    //  spreadsheetLoaded(data);
+	    }
+	});{}
 function mouseProgressPreview(e) {
 	var progress = $('#progress').offset();
 	$('#progress_preview').css({ cursor: 'move', left: e.pageX-progress.left-100});
@@ -318,11 +356,8 @@ function selectDefaultNotes(container){
       
 	});
 }
-function addNote(){
-	
-    lineabbrev = $("#textSelectionPrev").text();
-    note = $("#UserNoteBox").val();
-    prev=selAnchor;
+function findLine(){
+	prev=selAnchor;
     while ((prev!=null)&&(prev.nodeName.toLowerCase()!="a")){
 		
 		if (next.nodeType==3){
@@ -336,6 +371,29 @@ function addNote(){
 		
 	}
     lineStart = parseInt(prev.id.lastIndexOf("_"))+1;
+    console.log(prev.id);
+    return prev;
+}
+function addNote(){
+	
+   /* lineabbrev = $("#textSelectionPrev").text();
+    note = $("#UserNoteBox").val();
+    prev=selAnchor;
+    while ((prev!=null)&&(prev.nodeName.toLowerCase()!="a")){
+		
+		if (next.nodeType==3){
+	
+			
+			prev = $(prev).parent();
+		}
+
+
+		prev = $(prev)[0].previousSibling;
+		
+	}*/
+	prev = findLine();
+    lineStart = parseInt(prev.id.lastIndexOf("_"))+1;
+	
  
     lineNum = parseInt(prev.id.substring(lineStart));
 
@@ -435,6 +493,7 @@ function showNote(notes,id){
 	$("#footnotes_back").click(function(){
 		$("#footnotes_back").remove();
 		$("#editNote").remove();
+		unhighlight();
 		listNotes(notes,id);
 		
 	});
@@ -451,9 +510,9 @@ function goToPage(id){
 	imgId = pages[(id-1)].fol;
 	$("#page_number").text(id);
 	$("#total_pages").text(pages.length);
-	percent = 340/pages.length;
-	
-	$("#progress_bar").width(""+parseInt(percent)+"%");
+	percent = (currentPage/pages.length)*340;
+	console.log(percent);
+	$("#progress_bar").width(""+parseFloat(percent)+"px");
 	console.log(imgId);
 	showImage(imgId)
 	$("#page").html(pages[(id-1)].html);
@@ -640,12 +699,16 @@ function unhighlight(){
 }
 currentPage = 1;
 function nextPage(){
+	if (currentPage<pages.length+1){
 	currentPage++;
 	goToPage(currentPage);
-//	$("#page").html(pages[currentPage].html);
+	}
+
 }
 function prevPage(){
+	if (currentPage>1){
 	currentPage--;
 	goToPage(currentPage);
+	}
 	//$("#page").html(pages[currentPage].html);
 }
