@@ -204,7 +204,7 @@ function spreadsheetLoaded(json){
 					return num.scene == txtid; 
 				});
 				_.each(scpages,function(val){
-					pushMedia(val,mtype,linkid+"#"+scope);
+					pushMedia(val,mtype,linkid+"#"+linkanchor);
 					
 					
 				});
@@ -213,10 +213,12 @@ function spreadsheetLoaded(json){
 				p = _.find(noteIndex,function(num){
 					return num.id == txtid;
 				});
-				pushMedia(p,mtype,linkid+"#"+scope);
+				
+				pushMedia(pages[parseInt(p.page)-1],mtype,linkid+"#"+linkanchor);
+			
 			break;	
 			default:
-				globalMedia[mtype].push(linkid+"#"+scope);
+				globalMedia[mtype].push(linkid+"#"+linkanchor);
 			break;
 			 
 			
@@ -596,6 +598,9 @@ function showMedia(m){
 	}
 	if (m.audio.length>0){
 		$("#frame_tab_audio").html('<iframe width="100%" height="166" scrolling="no" frameborder="no" src="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'+m.audio[0]+'&show_artwork=false"></iframe>');
+	}
+	if (m.image.length>0){
+		$("#frame_tab_image").html('<img height=270 src="'+m.image[0]+'"/>');
 	}
 	
 }
