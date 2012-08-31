@@ -655,7 +655,21 @@ a.button:hover {
 	left: 10px;
 	top: 150px;
 }
-
+#editNote {
+	position: absolute;
+	left: 75px;
+	top: 10px;
+}
+#saveEdit {
+	position: absolute;
+	left: 10px;
+	top: 150px;
+}
+#deleteNote {
+	position: absolute;
+	left: 75px;
+	top: 150px;
+}
 
 #annotations {
 	/*background: #3c352e url('../img/google.jpg') no-repeat 170px 10px;*/
