@@ -15,7 +15,7 @@ function captureScroll(){
 	y = $(".imgBox").scrollTop();
 	console.log(currentPage+" "+x+" "+y);
 	old = $("#coords").val();
-	console.log(old+"{'page':"+currentPage+"','y':'"+y+"','x':'"+x+"'},");
+
 	
 }
 function captureKeys(){
@@ -57,9 +57,16 @@ $(document).ready(function(){
 		actsc = "act"+act+"_+"+scene;
 		
 		if (key<pages.length-1){
-		$("#progress_line").append("<li class='progress_slice' id='page_"+key+"'><a class='progress_marker'></a></li>")
-
+		$("#progress_line").append("<li class='progress_slice' id='page_"+key+"'></li>")
+		hasit = _.find(sceneIndex,function(num){
+			return num.page==key;
+		})
+		console.log("HAS IT? "+hasit);
+		if (!(_.isUndefined(hasit))){
+			$("#page_"+key).append('<a class="progress_marker"></a>');
+		}
 		sliceWidth = parseFloat((340/pages.length));
+		
 		$(".progress_slice").width(sliceWidth+"px");
 		}
 	
@@ -586,6 +593,9 @@ function showMedia(m){
 	if (m.video.length>0){
 	$("#frame_tab_video").html('<iframe width="360" height="270" src="http://www.youtube.com/embed/'+m.video[0]+'" frameborder="0" allowfullscreen></iframe>');
 
+	}
+	if (m.audio.length>0){
+		$("#frame_tab_audio").html('<iframe width="100%" height="166" scrolling="no" frameborder="no" src="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'+m.audio[0]+'&show_artwork=false"></iframe>');
 	}
 	
 }
