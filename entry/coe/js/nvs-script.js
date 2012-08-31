@@ -527,8 +527,8 @@ function showNote(notes,id){
 	highlightLine(textline);
 	$("#footnotes").append("<a id='footnotes_back' class='button'>&laquo; Back</a>");
 	if ($("#"+id+">.noteNum>a").hasClass("userNote")){
-		alert("EDIT");
-		$("#footnotes").append("<div class='button' id='editNote'>Edit</span>");
+		
+		$("#footnotes").append("<a class='button' id='editNote'>Edit</span>");
 	}
 	
 	//$("#footnotes_list").html("<div class='noteViewBody'>"+thisnote.label+" "+thisnote.lemma+" ] "+thisnote.value+"</div>");
