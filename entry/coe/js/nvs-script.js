@@ -47,7 +47,13 @@ $(window).keydown(function(e){
 }
 $(document).ready(function(){
 	captureKeys();
-	
+	$("#map").click(function(e){
+
+		ml = $("#map").position().x;
+		mt = $("#map").position().y;
+		alert(e.pageX+","+e.pageY+"  "+ml+","+mt);
+		
+	});
 	_.each(pages,function(val,key){
 		actsc = val.scene;
 		scin = actsc.indexOf("Scene");
@@ -178,13 +184,13 @@ function loadData(key) {
 	    //  spreadsheetLoaded(data);
 	    }
 	});}
-function pushMedia(p,t,v){
+function pushMedia(p,t,v,title){
 	if (_.isUndefined(p["media"])) 
 	{
 	p["media"]={"video":[],"audio":[],"image":[]};
 	}
-	p["media"][t].push(v);
-	return page;
+	p["media"][t].push({"item":v,"title":title});
+	return p;
 }
 function spreadsheetLoaded(json){
 	
@@ -196,7 +202,7 @@ function spreadsheetLoaded(json){
 		linkid = val["gsx$linkid"]["$t"];
 		linkanchor = val["gsx$linkanchor"]["$t"];
 		scope = val["gsx$scope"]["$t"];
-		
+		mtitle = val["gsx$title"]["$t"];
 		thepage = 1;
 		switch (scope){
 			case "Scene":
@@ -204,7 +210,7 @@ function spreadsheetLoaded(json){
 					return num.scene == txtid; 
 				});
 				_.each(scpages,function(val){
-					pushMedia(val,mtype,linkid+"#"+linkanchor);
+					pushMedia(val,mtype,linkid+"#"+linkanchor,mtitle);
 					
 					
 				});
@@ -214,11 +220,11 @@ function spreadsheetLoaded(json){
 					return num.id == txtid;
 				});
 				
-				pushMedia(pages[parseInt(p.page)-1],mtype,linkid+"#"+linkanchor);
+				pushMedia(pages[parseInt(p.page)-1],mtype,linkid+"#"+linkanchor,mtitle);
 			
 			break;	
 			default:
-				globalMedia[mtype].push(linkid+"#"+linkanchor);
+				globalMedia[mtype].push(null,mtype,linkid+"#"+linkanchor,mtitle);
 			break;
 			 
 			
@@ -577,9 +583,56 @@ function goToPage(id){
 		showMedia(p.media);
 	}
 }
+function toggleChildMedia(row){
+	if ($(row).hasClass("opened")){
+		$(row).removeClass("opened");
+		$(row).removeClass("expand");
+		mrow = $(row).parent().parent().next();
+		$(mrow).removeClass("opened");
+		$(mrow).hide();
+		
+	
+	}
+	else{
+		$(row).addClass("opened");
+		$(row).addClass("expand");
+		mrow = $(row).parent().parent().next();
+		$(mrow).addClass("opened");
+		mrow.show();
+		
+	}
+	
+}
 function showMedia(m){
 	console.log(JSON.stringify(m));
 	populateTabs({'image':m.image.length,'audio':m.audio.length,'video':m.video.length});
+	_.each(m,function(val,mt){
+		$("#"+mt+"_list").empty();
+		_.each(val,function(item){
+
+			$("#"+mt+"_list").append("<tr><td><a onclick='toggleChildMedia(this)'></a></td><td></td><td>"+item.title+"</td></tr>")
+			switch (mt){
+			case "video":
+				$("#"+mt+"_list").append("<tr><td colspan='3' class='viewRow'><iframe width='360' height='270' src='http://www.youtube.com/embed/"+item.item+"' frameborder='0' allowfullscreen></iframe></td></tr>");	
+				break;
+			case "audio":
+				$("#"+mt+"_list").append("<tr><td colspan='3' class='viewRow'><iframe width='100%' height='166' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F"+item.item+"'&show_artwork=false'></iframe></td></tr>");	
+				break;
+			case "image":
+				$("#"+mt+"_list").append("<tr><td colspan='3' class='viewRow'><img height=270 src='"+item.item+"'/></td></tr>");	
+			break;
+			}
+			
+			$("#"+mt+"_list>tbody>tr").last().hide();
+				
+			
+			
+		
+		});
+		$("#"+mt+"_list>tbody>tr>td>a").first().click();
+		
+	});
+	/*
 	if (m.video.length>0){
 	$("#frame_tab_video").html('<iframe width="360" height="270" src="http://www.youtube.com/embed/'+m.video[0]+'" frameborder="0" allowfullscreen></iframe>');
 
@@ -589,7 +642,7 @@ function showMedia(m){
 	}
 	if (m.image.length>0){
 		$("#frame_tab_image").html('<img height=270 src="'+m.image[0]+'"/>');
-	}
+	}*/
 	
 }
 function editNote(notes,id){
