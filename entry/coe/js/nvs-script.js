@@ -22,11 +22,7 @@ function captureKeys(){
 $(window).keydown(function(e){
 
 	switch (e.which){
-	case (65):
-		
-		console.log(findLine().id)
-		
-	break	
+
 	case (39):
 		nextPage();
 	break;
@@ -45,15 +41,35 @@ $(window).keydown(function(e){
 }
 );
 }
+function viewOnMap(plName){
+    console.log(plName);
+	pxy = _.find(placeCoords,function(pl){
+		return pl.name==plName
+	});
+	if (pxy!=undefined){
+		$("#tab_map").click();
+	$("#frame_tab_map").append("");
+	mpx = parseFloat(pxy.x) + parseFloat($("#map").offset().left);
+	mpy = parseFloat(pxy.y) + parseFloat($("#map").offset().top);
+	$("#mapPin").show();
+	mpw = 5;
+	mph = 10;
+	$("#mapPin").offset({"left":mpx-mpw,"top":mpy-mph});
+	
+	}
+
+}
 $(document).ready(function(){
 	captureKeys();
-	$("#map").click(function(e){
+	
+	$("#mapPin").hide();
+/*	$(window).click(function(e){
 
-		ml = $("#map").position().x;
-		mt = $("#map").position().y;
-		alert(e.pageX+","+e.pageY+"  "+ml+","+mt);
+		ml = $("#map").offset().left;
+		mt = $("#map").offset().top;
+		console.log(e.pageX+","+e.pageY+"  "+ml+","+mt+" "+(parseFloat(e.pageX)-parseFloat(ml))+","+(parseFloat(e.pageY)-parseFloat(mt)));
 		
-	});
+	});*/
 	_.each(pages,function(val,key){
 		actsc = val.scene;
 		scin = actsc.indexOf("Scene");
@@ -67,7 +83,7 @@ $(document).ready(function(){
 		hasit = _.find(sceneIndex,function(num){
 			return num.page==key;
 		})
-		console.log("HAS IT? "+hasit);
+
 		if (!(_.isUndefined(hasit))){
 			$("#page_"+key).append('<a class="progress_marker"></a>');
 		}
@@ -128,7 +144,7 @@ $(document).ready(function(){
 
 	$("#page").mouseup(function(){
 		if ($('.editNoteOpts').size()>0){
-		$(".editNoteOpts").replaceWith("<span class='button' id='addNote'>Add</span>");
+		$(".editNoteOpts").replaceWith("<a class='button' id='addNote'>Add</a>");
 		$("#addNote").unbind();
 		
 		$("#addNote").click(function(){
@@ -407,7 +423,12 @@ function selectDefaultNotes(container){
     	$(".annoContent").html('<span id="textSelectionPrev"></span></span><textarea id="UserNoteBox"></textarea>');
     	$("#annotations_login").replaceWith("<a class='button' id='addNote'>Save</a>")
     	$("#addNote").unbind();
-    	
+    	$("#UserNoteBox").focus(function(){
+    		$(window).unbind();
+    	});
+    	$("#UserNoteBox").blur(function(){
+    		captureKeys();
+    	});
     	$("#addNote").click(function(){
     		
     		addNote();
@@ -431,9 +452,13 @@ function findLine(){
 		prev = $(prev)[0].previousSibling;
 		
 	}
+    if (prev){
     lineStart = parseInt(prev.id.lastIndexOf("_"))+1;
     console.log(prev.id);
-    return prev;
+    return prev;}
+    else{
+    	return
+    }
 }
 function addNote(){
 	
@@ -444,7 +469,7 @@ function addNote(){
 	
  
     lineNum = parseInt(prev.id.substring(lineStart));
-
+    $("#textSelectionPrev").html("<strong>Your note is being saved in Google Drive.</strong>");
 	saveNote({"line":prev.id,"label":lineNum,"lemma":lineabbrev,"value":note});
 }
 function saveNote(noteObj){
@@ -479,6 +504,7 @@ insertsql.execute(function(resp){
 			return val.line
 		});
 		commentaryNotes.splice(newpos,0,noteObj);
+		$("#textSelectionPrev").html("<strong>Your has been saved.</strong>");
 		listNotes(commentaryNotes);
  });
 }
@@ -582,6 +608,11 @@ function goToPage(id){
 	if (!(_.isUndefined(p.media))){
 		showMedia(p.media);
 	}
+	$(".name").click(function(){
+		
+		plName = $(this).text();
+		viewOnMap(plName);
+	});
 }
 function toggleChildMedia(row){
 	if ($(row).hasClass("opened")){
@@ -653,6 +684,7 @@ function editNote(notes,id){
 	$("#UserNoteBox").val(thisnote.value);
 	$("#addNote").replaceWith("<div class='editNoteOpts'><a class='button' id='saveEdit'>Save</a> <a class='button' id='deleteNote'>Delete</a></div>");
 	$("#saveEdit").click(function(){
+		$("#textSelectionPrev").html("<strong>Updating.</strong>");
 		saveEdit(notes,thisnote, $("#UserNoteBox").val());
 	});
 	$("#deleteNote").click(function(){
@@ -679,10 +711,37 @@ insertsql.execute(function(resp){
 	 listNotes(notes);});
 }
 function saveEdit(notes,thisnote,newtext){
-	deleteNote(notes,thisnote);
-	saveNote({"line":thisnote.line,"label":thisnote.label,"lemma":thisnote.lemma,"value":newtext});
 
-	console.log("edited");
+	thisnote.value = newtext;
+	$("#UserNoteBox").val("");
+	console.log(JSON.stringify(noteObj));
+	
+	
+	rid = thisnote.id.substring("un_".length);
+	ts = new Date().getTime();
+	
+	//cid = "1OPeTUyTlVTFmxJqVM5sV0lutzFduYcDXElcINbA";
+
+sql = "UPDATE "+cid+" SET " +
+		"'timestamp'='"+ts+"', " +
+		"'line'='" +thisnote.line+"',"+
+		"'label'='" +thisnote.label+"',"+
+		"'lemma'='" +thisnote.lemma+"',"+
+		"'value'='" +thisnote.value+"' "+
+		"WHERE ROWID = '"+rid+"'";
+
+$("#footnotes_back").click();
+	insertsql = gapi.client.request({
+		
+        'path': '/fusiontables/v1/query?sql='+encodeURIComponent(sql),
+        'method': 'POST'});
+insertsql.execute(function(resp){
+	$("#textSelectionPrev").html("<strong>Your note has been updated.</strong>");
+
+	 });
+	
+	
+	
 }
 function listNotes(notes,topNote){
 	$("#footnotes_list").html("<table><tbody></tbody></table>");

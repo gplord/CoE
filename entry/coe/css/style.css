@@ -732,15 +732,15 @@ a.button:hover {
 }
 
 a.map_pin {
-	background-color: #555;
+	background-color: red;
 	border: 2px solid transparent;
 	border-radius: 5px;
 	color: #fff;
 	cursor: pointer;
 	font-size: 12px;
-	height: 20px;
+	height: 10px;
 	line-height: 125%;
-	min-width: 15px;
+	min-width: 5px;
 	padding: 5px;
 	padding-bottom: 0;
 	position: absolute;
