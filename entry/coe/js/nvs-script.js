@@ -170,7 +170,11 @@ function loadData(key) {
 	    success: function(data){
 	    //  spreadsheetLoaded(data);
 	    }
-	});{}
+	});}
+function spreadsheetLoaded(json){
+	
+	
+}
 function mouseProgressPreview(e) {
 	var progress = $('#progress').offset();
 	$('#progress_preview').css({ cursor: 'move', left: e.pageX-progress.left-100});
