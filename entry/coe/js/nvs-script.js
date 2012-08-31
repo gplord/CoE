@@ -399,7 +399,7 @@ function selectDefaultNotes(container){
     	  
     	  $(".annoContent").html("");
     	$(".annoContent").html('<span id="textSelectionPrev"></span></span><textarea id="UserNoteBox"></textarea>');
-    	$("#annotations_login").replaceWith("<a class='button' id='addNode'>Save</a>")
+    	$("#annotations_login").replaceWith("<a class='button' id='addNote'>Save</a>")
     	$("#addNote").unbind();
     	
     	$("#addNote").click(function(){
@@ -431,9 +431,9 @@ function findLine(){
 }
 function addNote(){
 	
-   /* lineabbrev = $("#textSelectionPrev").text();
+    lineabbrev = $("#textSelectionPrev").text();
     note = $("#UserNoteBox").val();
-    prev=selAnchor;
+   /* prev=selAnchor;
     while ((prev!=null)&&(prev.nodeName.toLowerCase()!="a")){
 		
 		if (next.nodeType==3){
