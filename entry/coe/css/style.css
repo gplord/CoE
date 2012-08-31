@@ -484,7 +484,10 @@ a#media_frame_back:hover {
 	border: 1px solid rgba(0,0,0,0.2);
 	border-radius: 15px;
 	width: 100%;
-	height: 270px;
+
+		text-align: center;
+	height: 261px;
+	overflow: auto;
 }
 	
 #frame_tab_book {
@@ -496,6 +499,9 @@ a#media_frame_back:hover {
 }
 #frame_tab_audio {
 	font-size: 12px;
+		text-align: center;
+	height: 261px;
+	overflow: auto;
 }
 #frame_tab_audio a {
 	color: #333;
@@ -773,12 +779,12 @@ td.noteLemma:hover {
 	background: rgba(255,255,255,0.1);	
 }
 
-#video_list {
+.media_list {
 	border: 1px solid black;
 	overflow: auto;
 	height: 250px;
 }
-#video_list a {
+.media_list a {
 	cursor: pointer;
 	display: block;
 	border: 7px solid transparent;
@@ -787,7 +793,7 @@ td.noteLemma:hover {
 	left: 5px;
 	width: 7px;
 }
-#video_list a.opened {
+.media_list a.opened {
 	border: 7px solid transparent;
 	border-top-color: #555;
 	display: block;
@@ -796,34 +802,34 @@ td.noteLemma:hover {
 	left: 0;
 	max-width: 0;
 }
-#video_list a.opened:hover {
+.media_list a.opened:hover {
 	border-top-color: #000;
 	border-left-color: transparent;
 }
-#video_list a:hover {
+.media_list a:hover {
 	border-left-color: #000;
 }
-#video_list table {
+.media_list table {
 	width: 100%;
 }
-#video_list tr:hover {
+.media_list tr:hover {
 	background: rgba(0,0,0,0.2);
 	cursor: pointer;
 }
-#video_list td {
+.media_list td {
 	padding: .25em .5em;
 	border-bottom: 1px solid #000;
 }
-#video_list td.opened {
+.media_list td.opened {
 	background: rgba(0,0,0,0.2);
 }
-#video_list td.opened:hover {
+.media_list td.opened:hover {
 	background: transparent;
 }
-#video_list td+td {
+.media_list td+td {
 	min-width: 50px;
 }
-#video_list td+td+td {
+.media_list td+td+td {
 	text-align: left;
 	width: 100%;
 }

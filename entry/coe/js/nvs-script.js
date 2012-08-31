@@ -188,7 +188,23 @@ $(document).ready(function(){
 		$("#prev").click(function(){
 		prevPage();
 	})
+	if(window.location.hash) {
+		
+		h= window.location.hash;
+	
+		if (h.substring(0,1)=="#"){
+			h=h.substring(1);
+			
+		}
+		if (h.length>1){
+		
+			loadData(h);
+		} else {
 	loadData("0Ag7PrlWT3aWadDlOTVBoczZQMXNVLUV6Q2dfOVp4VEE");	
+		}
+	}
+
+	
 });
 function loadData(key) {
 	var dataurl = 'https://spreadsheets.google.com/feeds/list/'+key+'/od6/public/values?alt=json-in-script&callback=spreadsheetLoaded';
