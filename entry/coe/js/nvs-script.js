@@ -162,7 +162,7 @@ $(document).ready(function(){
 		
 });
 function loadData(key) {
-	var dataurl = 'https://spreadsheets.google.com/feeds/list/'+key+''/od6/public/values?alt=json-in-script&callback=spreadsheetLoaded';
+	var dataurl = 'https://spreadsheets.google.com/feeds/list/'+key+'/od6/public/values?alt=json-in-script&callback=spreadsheetLoaded';
 	$.ajax({
 	  url: dataurl,
 	  dataType: 'jsonP',
