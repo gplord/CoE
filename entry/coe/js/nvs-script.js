@@ -607,6 +607,7 @@ function goToPage(id){
 	/*imgId = _.find(pageImages,function(num){
 		return num.page == id;
 	})*/
+	
 	p = pages[(id-1)];
 	imgId = p.fol;
 	$("#page_number").text(id);
@@ -628,6 +629,17 @@ function goToPage(id){
 	if (!(_.isUndefined(p.media))){
 		showMedia(p.media);
 	}
+	$(".name").each(function(key,val){
+		plTxt = $(val).text();
+		haspl = _.find(placeCoords,function(geos){
+			return geos.name==plTxt
+		});
+		if (haspl!=undefined){
+			$(val).addClass("mapName");
+		}
+		
+	});
+	
 	$(".name").click(function(){
 		
 		plName = $(this).text();
