@@ -67,3 +67,7 @@ $('#annotations_delete').click(function() {
 	// ANNOTATIONS DELETE BUTTON CODE HERE
 
 });
+
+$('#testFade').click(function() {
+	$('#logo').fadeOut('slow', function() {});
+});
