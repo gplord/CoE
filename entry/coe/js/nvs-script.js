@@ -433,19 +433,6 @@ function addNote(){
 	
     lineabbrev = $("#textSelectionPrev").text();
     note = $("#UserNoteBox").val();
-   /* prev=selAnchor;
-    while ((prev!=null)&&(prev.nodeName.toLowerCase()!="a")){
-		
-		if (next.nodeType==3){
-	
-			
-			prev = $(prev).parent();
-		}
-
-
-		prev = $(prev)[0].previousSibling;
-		
-	}*/
 	prev = findLine();
     lineStart = parseInt(prev.id.lastIndexOf("_"))+1;
 	
@@ -539,7 +526,8 @@ function showNote(notes,id){
 	scrollText(textline);
 	highlightLine(textline);
 	$("#footnotes").append("<a id='footnotes_back' class='button'>&laquo; Back</a>");
-	if ($("#"+id).hasClass("userNote")){
+	if ($("#"+id+">.noteNum>a").hasClass("userNote")){
+		alert("EDIT");
 		$("#footnotes").append("<div class='button' id='editNote'>Edit</span>");
 	}
 	
@@ -649,7 +637,7 @@ function listNotes(notes,topNote){
 	_.each(notes,function(value,key){
 		var txtNote= value.value.replace(/\<[^\>]*\>/g,"");
 		if (value.type=="userNote"){
-		colorNum = 2;
+		colorNum = "2 userNote";
 		}
 		else
 			{
@@ -669,12 +657,12 @@ function listNotes(notes,topNote){
 		$(this).addClass("selectedLine");	
 	});
 	
-	var loff = $("#"+topNote).offset();
+	/*var loff = $("#"+topNote).offset();
 	
 	if (loff!=null){
 		
 		$("#annoView").scrollTop((parseFloat(loff.top+$("#annoView").scrollTop())-$("#annoView").offset().top));
-	}
+	}*/
 	unhighlight();
 	return;
 }
