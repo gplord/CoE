@@ -492,11 +492,16 @@ function showNote(notes,id){
 		$("#footnotes").append("<div class='button' id='editNote'>Edit</span>");
 	}
 	
-	$("#footnotes_list").html("<div class='noteViewBody'>"+thisnote.label+" "+thisnote.lemma+" ] "+thisnote.value+"</div>");
+	//$("#footnotes_list").html("<div class='noteViewBody'>"+thisnote.label+" "+thisnote.lemma+" ] "+thisnote.value+"</div>");
+	$("#footnotes_list").hide();
+	$("#footnotes_text").show();
+	$("#footnotes_text").html("<div class='noteViewBody'>"+thisnote.label+" "+thisnote.lemma+" ] "+thisnote.value+"</div>");
 	$("#annoView").scrollTop(0);
 	$("#footnotes_back").click(function(){
 		$("#footnotes_back").remove();
 		$("#editNote").remove();
+		$("#footnotes_list").show();
+		$("#footnotes_text").hide();
 		unhighlight();
 		listNotes(notes,id);
 		

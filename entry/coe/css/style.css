@@ -485,47 +485,8 @@ a#next:hover {
 }
 #frame_tab_map {	
 	font-size: 12px;
+	text-align: center;
 }
-#map_key {
-	float: right;
-}
-#map_key h4 {
-	position: relative;
-	left: -25px;
-	font-size: 14px;
-	font-variant: small-caps;
-	margin-bottom: .5em;
-}
-li.key_red, li.key_blue, li.key_green, li.key_yellow,
-li.key_orange, li.key_purple, li.key_black, li.key_grey,
-li.key_brown, li.key_teal {
-	position: relative;
-}
-li.key_red:before, li.key_blue:before, li.key_green:before, li.key_yellow:before,
-li.key_orange:before, li.key_purple:before, li.key_black:before, li.key_grey:before,
-li.key_brown:before, li.key_teal:before {
-	content: ' ';
-	display: block;
-	position: absolute;
-	height: 10px;
-	width: 10px;
-	left: -20px;
-	margin-left: -5px;
-	margin-top: 1px;
-	box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.35);
-	-webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.35);
-	
-}
-li.key_red:before { background: red; }
-li.key_orange:before { background: orange; }
-li.key_yellow:before { background: gold; }
-li.key_green:before { background: green; }
-li.key_teal:before { background: teal; }
-li.key_blue:before { background: blue; }
-li.key_purple:before { background: purple; }
-li.key_brown:before { background: brown; }
-li.key_black:before { background: black; }
-li.key_grey:before { background: #555; }
 
 #frame_tab_book {
 }
@@ -537,7 +498,7 @@ li.key_grey:before { background: #555; }
 	border-radius: 5px;
 	padding: 10px;
 	width: 220px;
-	height: 225px;
+	height: 260px;
 	position: absolute;
 }
 #footnotes {
@@ -579,7 +540,8 @@ a.footnote_color.tag2:hover {
 
 
 #footnotes_list {
-	height: 225px;
+	height: 250px;
+	margin-top: 5px;
 	overflow: auto;
 }
 #footnotes_list table {
@@ -588,6 +550,13 @@ a.footnote_color.tag2:hover {
 	padding-right: 5px;
 	vertical-align: top;
 }
+#footnotes_text {
+	margin-top: 30px;
+	height: 230px;
+	overflow: auto;
+	display: none;
+}
+
 
 #footnotes_list td+td {
 	color: #958865;
@@ -637,11 +606,16 @@ a.button:hover {
 	background: rgba(0,0,0,0.65);
 }
 #footnotes_back {
-	left: 0;
+	position: absolute;
+	left: 10px;
+	top: 10px;
 }
 #annotations_login {
 	width: auto;
 	padding: 5px 15px;
+	position: absolute;
+	top: 210px;
+	left: 20px;
 }
 #annotations_save {
 	right: 0px;
@@ -650,6 +624,11 @@ a.button:hover {
 	right: 70px;
 }
 
+#addNode {
+	position: absolute;
+	left: 10px;
+	top: 150px;
+}
 
 
 #annotations {
@@ -672,6 +651,7 @@ a.button:hover {
 }
 #UserNoteBox {
 	width: 100%;
+	height: 100px;
 }
 
 #testMapPin {
@@ -711,11 +691,7 @@ a.button:hover {
 	z-index:10;
 }
 
-a.map_pin_green, a.map_pin_red, 
-a.map_pin_blue, a.map_pin_orange, 
-a.map_pin_yellow, a.map_pin_purple, 
-a.map_pin_brown, a.map_pin_black,
-a.map_pin_grey, a.map_pin_teal {
+a.map_pin {
 	background-color: #555;
 	border: 2px solid transparent;
 	border-radius: 5px;
@@ -724,6 +700,7 @@ a.map_pin_grey, a.map_pin_teal {
 	font-size: 12px;
 	height: 20px;
 	line-height: 125%;
+	min-width: 15px;
 	padding: 5px;
 	padding-bottom: 0;
 	position: absolute;
@@ -733,11 +710,7 @@ a.map_pin_grey, a.map_pin_teal {
 	box-shadow:  0px 2px 1px 1px rgba(0, 0, 0, 0.15);
 	-webkit-box-shadow:  0px 2px 1px 1px rgba(0, 0, 0, 0.15);
 }
-a.map_pin_green:after, a.map_pin_red:after, 
-a.map_pin_blue:after, a.map_pin_orange:after, 
-a.map_pin_yellow:after, a.map_pin_purple:after, 
-a.map_pin_brown:after, a.map_pin_black:after,
-a.map_pin_grey:after, a.map_pin_teal:after {
+a.map_pin:after {
 	content: ' ';
 	height: 0;
 	position: absolute;
@@ -752,24 +725,13 @@ a.map_pin:hover {
 	border: 2px solid #fff;
 }
 
-a.map_pin_green { background-color: green; }
-a.map_pin_green:after {	border-top-color: green; }
-a.map_pin_red { background-color: red; }
-a.map_pin_red:after {	border-top-color: red; }
-a.map_pin_blue { background-color: blue; }
-a.map_pin_blue:after {	border-top-color: blue; }
-a.map_pin_orange { background-color: orange; }
-a.map_pin_orange:after {	border-top-color: orange; }
-a.map_pin_yellow { background-color: gold; }
-a.map_pin_yellow:after {	border-top-color: gold; }
-a.map_pin_purple { background-color: purple; }
-a.map_pin_purple:after {	border-top-color: purple; }
-a.map_pin_brown { background-color: brown; }
-a.map_pin_brown:after {	border-top-color: brown; }
-a.map_pin_black { background-color: black; }
-a.map_pin_black:after {	border-top-color: black; }
-a.map_pin_teal { background-color: teal; }
-a.map_pin_teal:after {	border-top-color: teal; }
+
+td.noteLemma {
+	cursor: pointer;
+}
+td.noteLemma:hover {
+	background: rgba(255,255,255,0.1);	
+}
 
 
 footer {
