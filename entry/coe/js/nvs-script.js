@@ -640,7 +640,7 @@ function goToPage(id){
 		
 	});
 	
-	$(".name").click(function(){
+	$(".mapName").click(function(){
 		
 		plName = $(this).text();
 		viewOnMap(plName);
