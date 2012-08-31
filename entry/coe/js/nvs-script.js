@@ -196,14 +196,18 @@ $(document).ready(function(){
 			h=h.substring(1);
 			
 		}
-		if (h.length>1){
+		
+		if (h.length>2){
 		
 			loadData(h);
 		} else {
 	loadData("0Ag7PrlWT3aWadDlOTVBoczZQMXNVLUV6Q2dfOVp4VEE");	
 		}
 	}
-
+	else{
+		loadData("0Ag7PrlWT3aWadDlOTVBoczZQMXNVLUV6Q2dfOVp4VEE");	
+		
+	}
 	
 });
 function loadData(key) {
