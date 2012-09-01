@@ -351,6 +351,13 @@ a#media_frame_back:hover {
 .section p, .section_alt p {
 	margin-bottom: 1em;
 }
+.section p a, .section_alt p a {
+	color: #fff;
+	text-decoration: underline;
+}
+.section p strong, .section_alt p strong {
+	font-style: italic;
+}
 .section, .section_alt {
 	color: #afafa3;
 	line-height: 150%;
@@ -389,13 +396,21 @@ a#media_frame_back:hover {
 	clear: right;
 	float: right;
 	margin-left: 1em;
+	margin-bottom: 1em;
 }	
 .section_alt img {
 	clear: left;
 	float: left;
-	margin-right: 1em;
+	margin-right: 1.5em;
+	margin-bottom: .5em;
 }
-
+.section ul, .section_alt ul {
+	margin-left: 1em;
+}
+.section ul li, .section_alt ul li {
+	list-style-type: disc;
+	margin-left: 1em;
+}
 
 #media {
 	background: url('../img/bkgd_media.png') no-repeat 525px 300px;
@@ -762,7 +777,7 @@ a.map_pin:after {
 	position: absolute;
 	width: 0;
 	border: 5px solid transparent;
-	border-top-color: #555;
+	border-top-color: red;
 	top: 100%;
 	left: 50%;
 	margin-left: -5px;
@@ -849,7 +864,7 @@ a.bio_email:hover {
 }
 
 footer {
-	color: ##3c352e;
+	color: #50473e;
 	height: 50px;
 	padding: 15px 40px;
 }
@@ -860,4 +875,10 @@ footer p {
 }
 footer a {
 	color: #333;
+}
+
+#addNote {
+	position: absolute;
+	left: 10px;
+	top: 150px;
 }

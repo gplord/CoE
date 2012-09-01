@@ -49,24 +49,11 @@ $('.tab').click(function() {
 	}
 });
 
-
-
 $('#footnotes_back').click(function() {
-	
 	disableTab('tab_audio');
-	// FOOTNOTES BACK BUTTON CODE HERE
-
 });
-$('#annotations_save').click(function() {
-	
-	// ANNOTATIONS SAVE BUTTON CODE HERE
-
-});
-$('#annotations_delete').click(function() {
-	
-	// ANNOTATIONS DELETE BUTTON CODE HERE
-
-});
+$('#annotations_save').click(function() {});
+$('#annotations_delete').click(function() {});
 
 $('#testFade').click(function() {
 	$('#logo').fadeOut('slow', function() {});

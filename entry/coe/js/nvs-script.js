@@ -308,7 +308,7 @@ function showImage(id){
 }
 function login(){
 
-	$(".annoContent").show()
+	$(".annoContent").show();
 
     gapi.client.load('drive', 'v2', function() {
         var request = gapi.client.drive.files.list({
@@ -442,7 +442,7 @@ function selectDefaultNotes(container){
     	  $(".annoContent").html("");
     	$(".annoContent").html('<span id="textSelectionPrev"></span></span><textarea id="UserNoteBox"></textarea>');
     	$("#annotations_login").replaceWith("<a class='button' id='addNote'>Save</a>")
-    	$("#addNote").unbind();
+		$("#addNote").unbind();
     	$("#UserNoteBox").focus(function(){
     		$(window).unbind();
     	});
@@ -524,7 +524,7 @@ insertsql.execute(function(resp){
 			return val.line
 		});
 		commentaryNotes.splice(newpos,0,noteObj);
-		$("#textSelectionPrev").html("<strong>Your has been saved.</strong>");
+		$("#textSelectionPrev").html("<strong>Your note has been saved.</strong>");
 		listNotes(commentaryNotes);
  });
 }
@@ -676,7 +676,7 @@ function showMedia(m){
 			$("#"+mt+"_list").append("<tr><td><a onclick='toggleChildMedia(this)'></a></td><td></td><td>"+item.title+"</td></tr>")
 			switch (mt){
 			case "video":
-				$("#"+mt+"_list").append("<tr><td colspan='3' class='viewRow'><iframe width='360' height='270' src='http://www.youtube.com/embed/"+item.item+"' frameborder='0' allowfullscreen></iframe></td></tr>");	
+				$("#"+mt+"_list").append("<tr><td colspan='3' class='viewRow'><iframe width='307' height='230' src='http://www.youtube.com/embed/"+item.item+"' frameborder='0' allowfullscreen></iframe></td></tr>");	
 				break;
 			case "audio":
 				$("#"+mt+"_list").append("<tr><td colspan='3' class='viewRow'><iframe width='100%' height='166' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F"+item.item+"'&show_artwork=false'></iframe></td></tr>");	
